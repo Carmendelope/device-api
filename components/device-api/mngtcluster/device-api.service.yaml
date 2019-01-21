@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: device-api
+  labels:
+    cluster: management
+    component: device-api
+  namespace: nalej
+spec:
+  selector:
+    cluster: management
+    component: device-api
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 8450
+    targetPort: 8450
