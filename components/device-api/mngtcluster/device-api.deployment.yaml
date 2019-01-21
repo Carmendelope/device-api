@@ -24,7 +24,7 @@ spec:
         component: device-api
     spec:
       containers:
-      - name: login-api
+      - name: device-api
         image: nalejregistry.azurecr.io/nalej/device-api:VERSION
         imagePullPolicy: Always
         args:
