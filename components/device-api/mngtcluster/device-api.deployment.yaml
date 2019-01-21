@@ -9,7 +9,7 @@ metadata:
     cluster: management
     component: device-api
   name: device-api
-  namespace: nalej
+  namespace: __NPH_NAMESPACE
 spec:
   replicas: 1
   revisionHistoryLimit: 10
@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: device-api
-        image: nalejregistry.azurecr.io/nalej/device-api:VERSION
+        image: nalejregistry.azurecr.io/nalej/device-api:__NPH_VERSION
         imagePullPolicy: Always
         args:
         - "run"
