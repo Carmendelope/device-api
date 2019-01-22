@@ -1,0 +1,36 @@
+###
+# Application example
+###
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    cluster: management
+    component: device-api
+  name: device-api
+  namespace: __NPH_NAMESPACE
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      cluster: management
+      component: device-api
+  template:
+    metadata:
+      labels:
+        cluster: management
+        component: device-api
+    spec:
+      containers:
+      - name: device-api
+        image: nalejregistry.azurecr.io/nalej/device-api:__NPH_VERSION
+        imagePullPolicy: Always
+        args:
+        - "run"
+        - "--debug"
+        securityContext:
+          runAsUser: 2000
+      imagePullSecrets:
+      - name: nalej-registry
