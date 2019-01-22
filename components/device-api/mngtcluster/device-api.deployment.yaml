@@ -30,6 +30,10 @@ spec:
         args:
         - "run"
         - "--debug"
+        - "--deviceManagerAddress=device-manager.nalej:6010"
+        - "--authHeader=authorization"
+        - "--authSecret=$(AUTH_SECRET)"
+        - "--authConfigPath=/nalej/config/authx-config.json"
         securityContext:
           runAsUser: 2000
       imagePullSecrets:

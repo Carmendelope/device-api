@@ -1,0 +1,16 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  labels:
+    cluster: management
+    component: device-api
+  name: device-api-authx-config
+  namespace: nalej
+data:
+  # Primitives: ORG, APPS, RESOURCES, PROFILE
+  authx-config.json: |
+    {"allows_all":false,
+     "permissions": {
+       "/device_api.Devices/Register":{"must":["DEVICE"]}
+     }
+    }
