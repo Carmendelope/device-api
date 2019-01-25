@@ -38,16 +38,16 @@
   version = "v1.1.0"
 
 [[projects]]
-  digest = "1:176021710caf3af46374db8915e448d9866dd3d875b8f4d337477481ce45cd23"
+  digest = "1:9171209145b55e835a761fb307df6443ffa7c347c89ed4e5613e0893dffbeeae"
   name = "github.com/grpc-ecosystem/grpc-gateway"
   packages = [
+    "internal",
     "runtime",
-    "runtime/internal",
     "utilities",
   ]
   pruneopts = ""
-  revision = "ae4bb97e7718691c8e0742a7c07989c91630e042"
-  version = "v1.6.4"
+  revision = "b7a5640779183161e8d6c3e51f60f0859b5559ba"
+  version = "v1.7.0"
 
 [[projects]]
   digest = "1:870d441fe217b8e689d7949fef6e43efbc787e50f200cb1e70dbca9204a1d6be"
@@ -58,15 +58,15 @@
   version = "v1.0"
 
 [[projects]]
-  branch = "feature/NP-732_device_credentials"
-  digest = "1:63740682af0b74d47469f4dc76f548bdcee8254b5cb351a62a86490ddcdab6e8"
+  branch = "master"
+  digest = "1:f5de3a466231f0e7a0e672704703a5b24981e839fff330e87218526f954eb91e"
   name = "github.com/nalej/authx"
   packages = [
     "pkg/interceptor",
     "pkg/token",
   ]
   pruneopts = ""
-  revision = "fb8454e143699ea18fc8cb963064f6a44573d27d"
+  revision = "a8c866b257769eee039bd3dad4c08e372f6227dc"
 
 [[projects]]
   digest = "1:0cc441f3dfe124dd74f44dd7e466dfc17cc7edff468094fbc3847a96b5ebf6f7"
@@ -77,36 +77,36 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:881c6cec0ab0a69ec59d9f7a9b81ee980bd6dd33ef202d2bd75da91c40b9b7cb"
+  digest = "1:940374c478cf290bc40f58780295222dbb3d694925658acd8b927bfec5e3694e"
   name = "github.com/nalej/grpc-application-go"
   packages = ["."]
   pruneopts = ""
-  revision = "6bf913007e652e63c35c79205dc91b78e99c27fd"
-  version = "v0.0.40"
+  revision = "fd521a044d581c573e010be5f5fb6c59f11a9491"
+  version = "v0.0.41"
 
 [[projects]]
-  digest = "1:79cb8c860d55a1ef3a4faecca6b1a170e2f4000c101efe76c27978b1f63f5fd4"
+  digest = "1:bc0ddc3b7d248c928347ef88db5a3802c4388c169992bdff6f65673253e63f7c"
   name = "github.com/nalej/grpc-application-manager-go"
   packages = ["."]
   pruneopts = ""
-  revision = "d028aac540d9c189fd9c111d22d75f7a609b89d0"
-  version = "v0.0.24"
+  revision = "627ae0ca926a9968f7e3fd1862eda41a387d823b"
+  version = "v0.0.25"
 
 [[projects]]
-  digest = "1:92d228c9b2655f66a476f1cd10f099333dd83707483ccb1df2cda2acf3267402"
+  digest = "1:3f205994eb126e2b693709bc018879d3d6f70fbf12d6b211d149114dd92a5ab3"
   name = "github.com/nalej/grpc-authx-go"
   packages = ["."]
   pruneopts = ""
-  revision = "c9ccebe6eb9665663dbd94d0b4bae3d51a000c95"
-  version = "v0.0.37"
+  revision = "533f5f500e1a23280c5204887b17dd7614cfc591"
+  version = "v0.0.38"
 
 [[projects]]
-  digest = "1:553e0a6941f0dd6a5f61975032c4a3933a40e910c45b41cfae4b7ee2a946e1ca"
+  digest = "1:44f7426538411ea9f774f96e3b102decc9f549b188e55e29ecc15be69542a96b"
   name = "github.com/nalej/grpc-common-go"
   packages = ["."]
   pruneopts = ""
-  revision = "3a819d5336e7dcdd6b103eb0c78aafd48a01e70c"
-  version = "v0.0.29"
+  revision = "e1513decc4192934536180d456748a4c3dec0245"
+  version = "v0.0.30"
 
 [[projects]]
   digest = "1:e4891b7e05d4786ca43f1f87f3cf117b59c7cc949860cd60990adcc5063540f2"
@@ -117,20 +117,28 @@
   version = "v0.0.75"
 
 [[projects]]
-  digest = "1:8fbf9e8357d4b457b66fae6b4da790d3b588c58f9d09051a0322d56998982102"
+  digest = "1:c45422ea6ec1466aa082b3ed7d4b77173ca80e0b56a90cc2c1882695d496bb7a"
   name = "github.com/nalej/grpc-device-api-go"
   packages = ["."]
   pruneopts = ""
-  revision = "e0a58240131e10b6bd818f157ec880db538fcdc6"
-  version = "v0.0.1"
+  revision = "728884776cc47950ed24a4e7cd3c146a42caee22"
+  version = "v0.0.2"
 
 [[projects]]
-  digest = "1:468a36a53379d54c91aa25a320a627ccf9c580237eba3ff546903e7552acaa09"
+  digest = "1:856391a26533c0a6fc8a0798631f2248838a703398580db0e044cb1ab96a2b9b"
   name = "github.com/nalej/grpc-device-go"
   packages = ["."]
   pruneopts = ""
-  revision = "6b2d7b8a39b83cf0426c4e2f0f73bdbdb7a5e23e"
-  version = "v0.0.29"
+  revision = "9132a86817133a1da357a35272bb8a711980ecf3"
+  version = "v0.0.30"
+
+[[projects]]
+  digest = "1:ce40c41199ec76aff5f0b17bfa8c63a65c45350f0b3b2c895211be66dd014f31"
+  name = "github.com/nalej/grpc-device-manager-go"
+  packages = ["."]
+  pruneopts = ""
+  revision = "7fa4e84e976623a48b6bfc542c6d5ed5e5a860de"
+  version = "v0.0.1"
 
 [[projects]]
   digest = "1:6bd0e397a6fee6e75b0dbdb381cc83a4cea4317f27fe8fdac2ff6706016a601f"
@@ -214,11 +222,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:85f1f8e3ad5b175b79db221fa9da8f58cdd1853c763020eec580316117890d2f"
+  digest = "1:7e3b61f51ebcb58b3894928ed7c63aae68820dec1dd57166e5d6e65ef2868f40"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = ""
-  revision = "c6b37f3e92850b723493d63fd35aad34e19e048d"
+  revision = "b90733256f2e882e81d52f9126de08df5615afd9"
 
 [[projects]]
   digest = "1:5acd3512b047305d49e8763eef7ba423901e85d5dd2fd1e71778a0ea8de10bd4"
@@ -305,8 +313,10 @@
     "github.com/nalej/authx/pkg/interceptor",
     "github.com/nalej/derrors",
     "github.com/nalej/grpc-application-manager-go",
-    "github.com/nalej/grpc-authx-go",
+    "github.com/nalej/grpc-common-go",
     "github.com/nalej/grpc-device-api-go",
+    "github.com/nalej/grpc-device-go",
+    "github.com/nalej/grpc-device-manager-go",
     "github.com/nalej/grpc-utils/pkg/conversions",
     "github.com/nalej/grpc-utils/pkg/tools",
     "github.com/rs/zerolog",

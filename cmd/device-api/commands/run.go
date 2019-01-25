@@ -29,8 +29,6 @@ func init() {
 	runCmd.Flags().IntVar(&config.HTTPPort, "httpPort", 6001, "Port to launch the Device HTTP API")
 	runCmd.PersistentFlags().StringVar(&config.DeviceManagerAddress, "deviceManager", "localhost:6010",
 		"Device Manager address (host:port)")
-	runCmd.PersistentFlags().StringVar(&config.AuthxAddress, "authxAddress", "localhost:8810",
-		"Authx address (host:port)")
 	runCmd.PersistentFlags().StringVar(&config.ApplicationsManagerAddress, "applicationsManagerAddress", "localhost:8910",
 		"Applications Manager address (host:port)")
 	runCmd.PersistentFlags().StringVar(&config.AuthHeader, "authHeader", "", "Authorization Header")

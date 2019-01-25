@@ -19,8 +19,6 @@ type Config struct {
 	HTTPPort int
 	// DeviceManagerAddress with the host:port to connect to Device Manager
 	DeviceManagerAddress string
-	// AuthxAddress with the host:port to connect to the Authx manager.
-	AuthxAddress string
 	// ApplicationsManagerAddress with the host:port to connect to the Applications manager.
 	ApplicationsManagerAddress string
 	// AuthSecret contains the shared authx secret.
@@ -39,10 +37,6 @@ func (conf *Config) Validate() derrors.Error {
 
 	if conf.DeviceManagerAddress == "" {
 		return derrors.NewInvalidArgumentError("deviceManager must be set")
-	}
-
-	if conf.AuthxAddress == "" {
-		return derrors.NewInvalidArgumentError("authxAddress must be set")
 	}
 
 	if conf.ApplicationsManagerAddress == "" {
