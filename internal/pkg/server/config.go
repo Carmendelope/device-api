@@ -19,6 +19,8 @@ type Config struct {
 	HTTPPort int
 	// DeviceManagerAddress with the host:port to connect to Device Manager
 	DeviceManagerAddress string
+	// AuthxAddress with the host:port to connect to Authx Manager
+	AuthxAddress string
 	// ApplicationsManagerAddress with the host:port to connect to the Applications manager.
 	ApplicationsManagerAddress string
 	// AuthSecret contains the shared authx secret.
@@ -28,6 +30,7 @@ type Config struct {
 	// AuthConfigPath contains the path of the file with the authentication configuration.
 	AuthConfigPath string
 }
+
 
 func (conf *Config) Validate() derrors.Error {
 

@@ -36,7 +36,7 @@
 
 [[constraint]]
     name="github.com/nalej/grpc-device-api-go"
-    version="v0.0.1"
+    version="v0.0.3"
 
 [[constraint]]
     name="github.com/nalej/grpc-application-manager-go"

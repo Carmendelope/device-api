@@ -14,7 +14,6 @@ import (
 	"github.com/nalej/device-api/internal/pkg/server/device"
 	"github.com/nalej/grpc-application-manager-go"
 	"github.com/nalej/grpc-device-manager-go"
-	"github.com/nalej/grpc-device-go"
 	"github.com/nalej/grpc-utils/pkg/tools"
 	"github.com/nalej/grpc-device-api-go"
 	"github.com/rs/zerolog/log"
