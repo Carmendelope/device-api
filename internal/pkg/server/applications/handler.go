@@ -23,9 +23,6 @@ func NewHandler(manager Manager) *Handler {
 	return &Handler{manager}
 }
 
-// RetrieveTargetApplications(ctx context.Context, in *grpc_application_manager_go.ApplicationFilter, opts ...grpc.CallOption)
-// (*grpc_application_manager_go.TargetApplicationList, error)
-
 // RetrieveTargetApplications retrieves the list of target applications that accept data from the device.
 func (h*Handler) RetrieveTargetApplications(ctx context.Context, filter *grpc_application_manager_go.ApplicationFilter) (*grpc_application_manager_go.TargetApplicationList, error) {
 	rm, err := interceptor.GetDeviceRequestMetadata(ctx)
@@ -45,7 +42,6 @@ func (h*Handler) RetrieveTargetApplications(ctx context.Context, filter *grpc_ap
 	return h.Manager.RetrieveTargetApplications(filter)
 }
 
-//	RetrieveEndpoints(ctx context.Context, in *grpc_application_manager_go.RetrieveEndpointsRequest, opts ...grpc.CallOption) (*grpc_application_manager_go.ApplicationEndpoints, error)
 // RetrieveTargetApplications retrieves the list of target applications that accept data from the device.
 func (h*Handler) RetrieveEndpoints(ctx context.Context, request *grpc_application_manager_go.RetrieveEndpointsRequest) (*grpc_application_manager_go.ApplicationEndpoints, error){
 	rm, err := interceptor.GetDeviceRequestMetadata(ctx)
