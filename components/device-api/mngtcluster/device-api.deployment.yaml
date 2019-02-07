@@ -25,12 +25,12 @@ spec:
     spec:
       containers:
       - name: device-api
-        image: nalejregistry.azurecr.io/nalej/device-api:__NPH_VERSION
+        image: __NPH_REGISTRY.azurecr.io/__NPH_REGISTRY_NAMESPACE/device-api:__NPH_VERSION
         imagePullPolicy: Always
         args:
         - "run"
         - "--debug"
-        - "--deviceManagerAddress=device-manager.nalej:6010"
+        - "--deviceManagerAddress=device-manager.__NPH_NAMESPACE:6010"
         - "--authHeader=authorization"
         - "--authSecret=$(AUTH_SECRET)"
         - "--authConfigPath=/nalej/config/authx-config.json"
