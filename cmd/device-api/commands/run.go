@@ -27,7 +27,7 @@ var runCmd = &cobra.Command{
 func init() {
 	runCmd.Flags().IntVar(&config.Port, "port", 6000, "Port to launch the Device gRPC API")
 	runCmd.Flags().IntVar(&config.HTTPPort, "httpPort", 6001, "Port to launch the Device HTTP API")
-	runCmd.PersistentFlags().StringVar(&config.DeviceManagerAddress, "deviceManager", "localhost:6010",
+	runCmd.PersistentFlags().StringVar(&config.DeviceManagerAddress, "deviceManagerAddress", "localhost:6010",
 		"Device Manager address (host:port)")
 	runCmd.PersistentFlags().StringVar(&config.AuthHeader, "authHeader", "", "Authorization Header")
 	runCmd.PersistentFlags().StringVar(&config.AuthSecret, "authSecret", "", "Authorization secret")
