@@ -9,3 +9,4 @@ APPS=device-api
 export
 %:
 	$(MAKE) -f Makefile.golang $@
+	

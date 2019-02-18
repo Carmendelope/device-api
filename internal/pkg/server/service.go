@@ -5,11 +5,17 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/nalej/authx/pkg/interceptor"
 	"github.com/nalej/derrors"
+	"github.com/nalej/device-api/internal/pkg/server/applications"
+	"github.com/nalej/device-api/internal/pkg/server/device"
+	"github.com/nalej/grpc-application-manager-go"
+	"github.com/nalej/grpc-device-manager-go"
 	"github.com/nalej/grpc-utils/pkg/tools"
+	"github.com/nalej/grpc-device-api-go"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -32,6 +38,8 @@ func NewService(conf Config) *Service {
 }
 
 type Clients struct {
+	deviceClient grpc_device_manager_go.DevicesClient
+	appClient   grpc_application_manager_go.ApplicationManagerClient
 }
 
 func (s *Service) GetClients() (*Clients, derrors.Error) {
@@ -39,9 +47,16 @@ func (s *Service) GetClients() (*Clients, derrors.Error) {
 	if err != nil {
 		return nil, derrors.AsError(err, "cannot create connection with the device manager")
 	}
-	log.Debug().Interface("dm", dmConn).Msg("dmConn")
+	deviceClient := grpc_device_manager_go.NewDevicesClient(dmConn)
 
-	return &Clients{}, nil
+	appConn, err := grpc.Dial(s.Configuration.ApplicationsManagerAddress, grpc.WithInsecure())
+	if err != nil {
+		return nil, derrors.AsError(err, "cannot create connection with the applications manager")
+	}
+	appClient := grpc_application_manager_go.NewApplicationManagerClient(appConn)
+
+
+	return &Clients{deviceClient, appClient}, nil
 }
 
 // Run the service, launch the REST service handler.
@@ -87,11 +102,17 @@ func preflightHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) LaunchHTTP() error {
-	// TODO Use clientAddr and opts
 	addr := fmt.Sprintf(":%d", s.Configuration.HTTPPort)
-	//clientAddr := fmt.Sprintf(":%d", s.Configuration.Port)
-	//opts := []grpc.DialOption{grpc.WithInsecure()}
+	clientAddr := fmt.Sprintf(":%d", s.Configuration.Port)
+	opts := []grpc.DialOption{grpc.WithInsecure()}
 	mux := runtime.NewServeMux()
+
+	if err := grpc_device_api_go.RegisterDeviceHandlerFromEndpoint(context.Background(), mux, clientAddr, opts); err != nil {
+		log.Fatal().Err(err).Msg("failed to start device handler")
+	}
+	if err := grpc_device_api_go.RegisterApplicationsHandlerFromEndpoint(context.Background(), mux, clientAddr, opts); err != nil {
+		log.Fatal().Err(err).Msg("failed to start applications handler")
+	}
 
 	server := &http.Server{
 		Addr:    addr,
@@ -113,10 +134,16 @@ func (s *Service) LaunchGRPC(authConfig *interceptor.AuthorizationConfig) error 
 	}
 
 	// Create handlers
-	log.Debug().Interface("clients", clients).Msg("clients")
+	deviceManager := device.NewManager(clients.deviceClient)
+	deviceHandler := device.NewHandler(deviceManager)
+
+	applicationsManager := applications.NewManager(clients.appClient)
+	applicationsHandler := applications.NewHandler(applicationsManager)
 
 	grpcServer := grpc.NewServer(interceptor.WithServerAuthxInterceptor(
 		interceptor.NewConfig(authConfig, s.Configuration.AuthSecret, s.Configuration.AuthHeader)))
+	grpc_device_api_go.RegisterDeviceServer(grpcServer, deviceHandler)
+	grpc_device_api_go.RegisterApplicationsServer(grpcServer, applicationsHandler)
 
 	// Register reflection service on gRPC server.
 	reflection.Register(grpcServer)

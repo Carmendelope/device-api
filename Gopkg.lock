@@ -38,16 +38,30 @@
   version = "v1.1.0"
 
 [[projects]]
-  digest = "1:176021710caf3af46374db8915e448d9866dd3d875b8f4d337477481ce45cd23"
+  digest = "1:9171209145b55e835a761fb307df6443ffa7c347c89ed4e5613e0893dffbeeae"
   name = "github.com/grpc-ecosystem/grpc-gateway"
   packages = [
+    "internal",
     "runtime",
-    "runtime/internal",
     "utilities",
   ]
   pruneopts = ""
-  revision = "ae4bb97e7718691c8e0742a7c07989c91630e042"
-  version = "v1.6.4"
+  revision = "b7a5640779183161e8d6c3e51f60f0859b5559ba"
+  version = "v1.7.0"
+
+[[projects]]
+  digest = "1:b3c5b95e56c06f5aa72cb2500e6ee5f44fcd122872d4fec2023a488e561218bc"
+  name = "github.com/hpcloud/tail"
+  packages = [
+    ".",
+    "ratelimiter",
+    "util",
+    "watch",
+    "winfile",
+  ]
+  pruneopts = ""
+  revision = "a30252cb686a21eb2d0b98132633053ec2f7f1e5"
+  version = "v1.0.0"
 
 [[projects]]
   digest = "1:870d441fe217b8e689d7949fef6e43efbc787e50f200cb1e70dbca9204a1d6be"
@@ -58,15 +72,15 @@
   version = "v1.0"
 
 [[projects]]
-  digest = "1:26861d458e369d782204ece3065fbc535984de4b97aed4468862c0169bd24788"
+  branch = "master"
+  digest = "1:933bb3c01f64ca46537acedf0c04d07073d0c0486f14de0bd99b43e272b1a8db"
   name = "github.com/nalej/authx"
   packages = [
     "pkg/interceptor",
     "pkg/token",
   ]
   pruneopts = ""
-  revision = "a965a5f4b768497c16f4c0ed991afa66819f70be"
-  version = "v0.1.1"
+  revision = "8c5bf0552f5644645b0823846600b89f190fc1e1"
 
 [[projects]]
   digest = "1:0cc441f3dfe124dd74f44dd7e466dfc17cc7edff468094fbc3847a96b5ebf6f7"
@@ -77,68 +91,84 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:881c6cec0ab0a69ec59d9f7a9b81ee980bd6dd33ef202d2bd75da91c40b9b7cb"
+  digest = "1:b5034e56f7f2274bc0698bf6cbcc14c591d2d6f0da771487a98b96824647b2d8"
   name = "github.com/nalej/grpc-application-go"
   packages = ["."]
   pruneopts = ""
-  revision = "6bf913007e652e63c35c79205dc91b78e99c27fd"
-  version = "v0.0.40"
+  revision = "93ac95fb4df8896fd7cd95677daffea4b43361d2"
+  version = "v0.0.50"
 
 [[projects]]
-  digest = "1:79cb8c860d55a1ef3a4faecca6b1a170e2f4000c101efe76c27978b1f63f5fd4"
+  digest = "1:a7eb4f7cd99e73fd69c09cb64789379a3ee4d27c04f6ce2c0fcedafc297b9c29"
   name = "github.com/nalej/grpc-application-manager-go"
   packages = ["."]
   pruneopts = ""
-  revision = "d028aac540d9c189fd9c111d22d75f7a609b89d0"
-  version = "v0.0.24"
+  revision = "816e9766cef540d1932a1f8a7d18be2c3abee7e6"
+  version = "v0.0.28"
 
 [[projects]]
-  digest = "1:bc6a56ace9424f979cfaa2821155c8974477b64ddaeb7f16631faea10e46576d"
+  digest = "1:bb69634b2e62f03ff03e45a938ef940d75ef7731c6379cef81acf55aba79d32f"
   name = "github.com/nalej/grpc-authx-go"
   packages = ["."]
   pruneopts = ""
-  revision = "60d9088f1b70ed57ccf4d12721edd79629e80d51"
-  version = "v0.0.20"
+  revision = "698e393c8afcfd9c48d660285f304a2e4e976894"
+  version = "v0.0.41"
 
 [[projects]]
-  digest = "1:553e0a6941f0dd6a5f61975032c4a3933a40e910c45b41cfae4b7ee2a946e1ca"
+  digest = "1:44f7426538411ea9f774f96e3b102decc9f549b188e55e29ecc15be69542a96b"
   name = "github.com/nalej/grpc-common-go"
   packages = ["."]
   pruneopts = ""
-  revision = "3a819d5336e7dcdd6b103eb0c78aafd48a01e70c"
-  version = "v0.0.29"
-
-[[projects]]
-  digest = "1:e4891b7e05d4786ca43f1f87f3cf117b59c7cc949860cd60990adcc5063540f2"
-  name = "github.com/nalej/grpc-conductor-go"
-  packages = ["."]
-  pruneopts = ""
-  revision = "3955e1481d10aebe85ec8c52ffaff635eeb5fe0e"
-  version = "v0.0.75"
-
-[[projects]]
-  digest = "1:6bd0e397a6fee6e75b0dbdb381cc83a4cea4317f27fe8fdac2ff6706016a601f"
-  name = "github.com/nalej/grpc-infrastructure-go"
-  packages = ["."]
-  pruneopts = ""
-  revision = "7961bfc23a902158e985b182b3f3726ce07775f1"
+  revision = "e1513decc4192934536180d456748a4c3dec0245"
   version = "v0.0.30"
 
 [[projects]]
-  digest = "1:4409415220b7ba5f96cd9afed6aaa05a811efbc08bf67884e9137c09018b1915"
-  name = "github.com/nalej/grpc-infrastructure-manager-go"
+  digest = "1:67a89aaba9fe8469229f39e2bad759667f5a993ae8f901e6205dc9239f04ade1"
+  name = "github.com/nalej/grpc-conductor-go"
   packages = ["."]
   pruneopts = ""
-  revision = "dd26d7553847cedce10b01e0e73572e08136f8db"
-  version = "v0.0.29"
+  revision = "a0083d5a02cfc712bf84b8eaec37b0bdb88f56a7"
+  version = "v0.0.82"
 
 [[projects]]
-  digest = "1:6347c472315da90d57cb2240a0faf6fc873e21e548e76fe3f764cc398de1e6c0"
-  name = "github.com/nalej/grpc-installer-go"
+  digest = "1:df0106ac31c91f013f447cfc9eed176676ea5cfe1ac5d38f56802d5af55b4382"
+  name = "github.com/nalej/grpc-device-api-go"
   packages = ["."]
   pruneopts = ""
-  revision = "4ee684071ec6b46e8b6a4eb91d8e3636de533a0d"
-  version = "v0.0.29"
+  revision = "5b8ee1e719a0fb5e160312e7eb07dc1044f9c585"
+  version = "v0.0.3"
+
+[[projects]]
+  digest = "1:9303d606290264d6e7016d5c838148977ce0d306e97e19058da63d77314bbc62"
+  name = "github.com/nalej/grpc-device-controller-go"
+  packages = ["."]
+  pruneopts = ""
+  revision = "d9ef78c5897c9feccc1ae099051881425e5e733e"
+  version = "v0.0.5"
+
+[[projects]]
+  digest = "1:856391a26533c0a6fc8a0798631f2248838a703398580db0e044cb1ab96a2b9b"
+  name = "github.com/nalej/grpc-device-go"
+  packages = ["."]
+  pruneopts = ""
+  revision = "9132a86817133a1da357a35272bb8a711980ecf3"
+  version = "v0.0.30"
+
+[[projects]]
+  digest = "1:fb479de2eaa2ba61fae1f839838ecb6a198bd4680e942f1efb67010c79aa4829"
+  name = "github.com/nalej/grpc-device-manager-go"
+  packages = ["."]
+  pruneopts = ""
+  revision = "d8756adfcd58f2caf0e898eee2301055a1c0f606"
+  version = "v0.0.5"
+
+[[projects]]
+  digest = "1:6973c345abcc2530f5ae4ddaa179521470a37b9cc8a2b7568227190df7f381e2"
+  name = "github.com/nalej/grpc-infrastructure-go"
+  packages = ["."]
+  pruneopts = ""
+  revision = "ea9783c67dc5bf7f6429935c0fdc59eee3f361e1"
+  version = "v0.0.32"
 
 [[projects]]
   digest = "1:9921e275160e1559963d6452a918027db3563746fd03f63369ab104c0fbf16bf"
@@ -149,14 +179,6 @@
   version = "v0.0.28"
 
 [[projects]]
-  digest = "1:880d86ce1a53a355f8a9a86edf74aa487a9e39fa9b6e3a010609a365a76a8d86"
-  name = "github.com/nalej/grpc-public-api-go"
-  packages = ["."]
-  pruneopts = ""
-  revision = "e55986ddcd264678e3546f50f0d8dad1108650df"
-  version = "v0.0.36"
-
-[[projects]]
   digest = "1:2b6ef08f73e4e40c25b3cbe313d9727cf01210696fe73af5a03231f5a1a4fb21"
   name = "github.com/nalej/grpc-user-go"
   packages = ["."]
@@ -165,18 +187,11 @@
   version = "v0.0.29"
 
 [[projects]]
-  digest = "1:4c09c5e7ee1daa8e85927a745dc6c928ee2da9f7be3820c35ab1649d15ab5783"
-  name = "github.com/nalej/grpc-user-manager-go"
-  packages = ["."]
-  pruneopts = ""
-  revision = "647ceab0fbdf42fea3148ef2be4a13b4776a0a8f"
-  version = "v0.0.27"
-
-[[projects]]
   digest = "1:a55e0792c0a632d14fc0f7a1c4b55ed2973189c2267d7197c2e13b1a44371466"
   name = "github.com/nalej/grpc-utils"
   packages = [
     "pkg/conversions",
+    "pkg/test",
     "pkg/tools",
   ]
   pruneopts = ""
@@ -184,23 +199,52 @@
   version = "v1.3.1"
 
 [[projects]]
-  digest = "1:eb54d6d8892d5a66c956b0d666d73440f7d62137d89de9912cf8e9282f9e73eb"
-  name = "github.com/nalej/public-api"
+  digest = "1:a754db3c70741eeaeba73ec4cd970dc8918d06ced993d24891e9c0386d74f588"
+  name = "github.com/onsi/ginkgo"
   packages = [
-    "internal/pkg/authhelper",
-    "internal/pkg/entities",
-    "internal/pkg/server/applications",
-    "internal/pkg/server/clusters",
-    "internal/pkg/server/nodes",
-    "internal/pkg/server/organizations",
-    "internal/pkg/server/resources",
-    "internal/pkg/server/roles",
-    "internal/pkg/server/users",
-    "version",
+    ".",
+    "config",
+    "internal/codelocation",
+    "internal/containernode",
+    "internal/failer",
+    "internal/leafnodes",
+    "internal/remote",
+    "internal/spec",
+    "internal/spec_iterator",
+    "internal/specrunner",
+    "internal/suite",
+    "internal/testingtproxy",
+    "internal/writer",
+    "reporters",
+    "reporters/stenographer",
+    "reporters/stenographer/support/go-colorable",
+    "reporters/stenographer/support/go-isatty",
+    "types",
   ]
   pruneopts = ""
-  revision = "780f92ca5807e423901b6ca7a1de45e930eb1fc9"
-  version = "v0.1.1"
+  revision = "2e1be8f7d90e9d3e3e58b0ce470f2f14d075406f"
+  version = "v1.7.0"
+
+[[projects]]
+  digest = "1:c8f0c8c28c9c1c51db72d0e7f04797cfe5d0d50528274099b6b2d6c314db7f97"
+  name = "github.com/onsi/gomega"
+  packages = [
+    ".",
+    "format",
+    "internal/assertion",
+    "internal/asyncassertion",
+    "internal/oraclematcher",
+    "internal/testingtsupport",
+    "matchers",
+    "matchers/support/goraph/bipartitegraph",
+    "matchers/support/goraph/edge",
+    "matchers/support/goraph/node",
+    "matchers/support/goraph/util",
+    "types",
+  ]
+  pruneopts = ""
+  revision = "65fb64232476ad9046e57c26cd0bff3d3a8dc6cd"
+  version = "v1.4.3"
 
 [[projects]]
   digest = "1:d518eb4bfb76545977b0be8549606e6de5c56f8887b84cc24d12f5ec1c587e3a"
@@ -233,10 +277,13 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:552c5a9b4a2cd4d21efdba35fff561e13f0c666bf4c82fcedbb4e031b704aa61"
+  digest = "1:4f7cbb08d72e1163302e2d21415200a7bc281653f5f34eda8a15c0da11a337b0"
   name = "golang.org/x/net"
   packages = [
     "context",
+    "html",
+    "html/atom",
+    "html/charset",
     "http/httpguts",
     "http2",
     "http2/hpack",
@@ -245,15 +292,15 @@
     "trace",
   ]
   pruneopts = ""
-  revision = "ed066c81e75eba56dd9bd2139ade88125b855585"
+  revision = "3a22650c66bd7f4fb6d1e8072ffd7b75c8a27898"
 
 [[projects]]
   branch = "master"
-  digest = "1:c050584da5d3218459a3e944161bf8a0afb2d4efda9d86e7fd98a4fd05dd2ac1"
+  digest = "1:991cf54090eb6e382daf2f243a0bcabdda4964a664e07feefbef2b7fb6bf2ae1"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = ""
-  revision = "054c452bb702e465e95ce8e7a3d9a6cf0cd1188d"
+  revision = "d0b11bdaac8adb652bff00e49bcacf992835621a"
 
 [[projects]]
   digest = "1:5acd3512b047305d49e8763eef7ba423901e85d5dd2fd1e71778a0ea8de10bd4"
@@ -261,12 +308,24 @@
   packages = [
     "collate",
     "collate/build",
+    "encoding",
+    "encoding/charmap",
+    "encoding/htmlindex",
+    "encoding/internal",
+    "encoding/internal/identifier",
+    "encoding/japanese",
+    "encoding/korean",
+    "encoding/simplifiedchinese",
+    "encoding/traditionalchinese",
+    "encoding/unicode",
     "internal/colltab",
     "internal/gen",
     "internal/tag",
     "internal/triegen",
     "internal/ucd",
+    "internal/utf8internal",
     "language",
+    "runes",
     "secure/bidirule",
     "transform",
     "unicode/bidi",
@@ -327,10 +386,36 @@
     "stats",
     "status",
     "tap",
+    "test/bufconn",
   ]
   pruneopts = ""
   revision = "a02b0774206b209466313a0b525d2c738fe407eb"
   version = "v1.18.0"
+
+[[projects]]
+  digest = "1:eb53021a8aa3f599d29c7102e65026242bdedce998a54837dc67f14b6a97c5fd"
+  name = "gopkg.in/fsnotify.v1"
+  packages = ["."]
+  pruneopts = ""
+  revision = "c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9"
+  source = "https://github.com/fsnotify/fsnotify/archive/v1.4.7.tar.gz"
+  version = "v1.4.7"
+
+[[projects]]
+  branch = "v1"
+  digest = "1:a96d16bd088460f2e0685d46c39bcf1208ba46e0a977be2df49864ec7da447dd"
+  name = "gopkg.in/tomb.v1"
+  packages = ["."]
+  pruneopts = ""
+  revision = "dd632973f1e7218eb1089048e0798ec9ae7dceb8"
+
+[[projects]]
+  digest = "1:cedccf16b71e86db87a24f8d4c70b0a855872eb967cb906a66b95de56aefbd0d"
+  name = "gopkg.in/yaml.v2"
+  packages = ["."]
+  pruneopts = ""
+  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
+  version = "v2.2.2"
 
 [solve-meta]
   analyzer-name = "dep"
@@ -340,25 +425,21 @@
     "github.com/nalej/authx/pkg/interceptor",
     "github.com/nalej/derrors",
     "github.com/nalej/grpc-application-manager-go",
-    "github.com/nalej/grpc-infrastructure-go",
-    "github.com/nalej/grpc-infrastructure-manager-go",
-    "github.com/nalej/grpc-organization-go",
-    "github.com/nalej/grpc-public-api-go",
-    "github.com/nalej/grpc-user-manager-go",
+    "github.com/nalej/grpc-common-go",
+    "github.com/nalej/grpc-device-api-go",
+    "github.com/nalej/grpc-device-go",
+    "github.com/nalej/grpc-device-manager-go",
+    "github.com/nalej/grpc-utils/pkg/conversions",
+    "github.com/nalej/grpc-utils/pkg/test",
     "github.com/nalej/grpc-utils/pkg/tools",
-    "github.com/nalej/public-api/internal/pkg/server/applications",
-    "github.com/nalej/public-api/internal/pkg/server/clusters",
-    "github.com/nalej/public-api/internal/pkg/server/nodes",
-    "github.com/nalej/public-api/internal/pkg/server/organizations",
-    "github.com/nalej/public-api/internal/pkg/server/resources",
-    "github.com/nalej/public-api/internal/pkg/server/roles",
-    "github.com/nalej/public-api/internal/pkg/server/users",
-    "github.com/nalej/public-api/version",
+    "github.com/onsi/ginkgo",
+    "github.com/onsi/gomega",
     "github.com/rs/zerolog",
     "github.com/rs/zerolog/log",
     "github.com/spf13/cobra",
     "google.golang.org/grpc",
     "google.golang.org/grpc/reflection",
+    "google.golang.org/grpc/test/bufconn",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
