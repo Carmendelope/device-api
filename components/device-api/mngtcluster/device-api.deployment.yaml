@@ -44,7 +44,6 @@ spec:
         args:
         - "run"
         - "--debug"
-        - "--authxAddress=authx.__NPH_NAMESPACE:8810"
         - "--deviceManagerAddress=device-manager.__NPH_NAMESPACE:6010"
         - "--authHeader=authorization"
         - "--authSecret=$(AUTH_SECRET)"

@@ -19,8 +19,6 @@ type Config struct {
 	HTTPPort int
 	// DeviceManagerAddress with the host:port to connect to Device Manager
 	DeviceManagerAddress string
-	// AuthxAddress with the host:port to connect to Authx Manager
-	AuthxAddress string
 	// ApplicationsManagerAddress with the host:port to connect to the Applications manager.
 	ApplicationsManagerAddress string
 	// AuthSecret contains the shared authx secret.
@@ -67,7 +65,6 @@ func (conf *Config) Print() {
 	log.Info().Int("port", conf.Port).Msg("gRPC port")
 	log.Info().Int("port", conf.HTTPPort).Msg("HTTP port")
 	log.Info().Str("URL", conf.DeviceManagerAddress).Msg("Device Manager")
-	log.Info().Str("URL", conf.AuthxAddress).Msg("Authx")
 	log.Info().Str("URL", conf.ApplicationsManagerAddress).Msg("Applications Manager")
 	log.Info().Str("header", conf.AuthHeader).Str("secret", strings.Repeat("*", len(conf.AuthSecret))).Msg("Authorization")
 	log.Info().Str("path", conf.AuthConfigPath).Msg("Permissions file")
