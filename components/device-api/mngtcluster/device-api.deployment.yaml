@@ -51,5 +51,15 @@ spec:
         - "--applicationsManagerAddress=application-manager.__NPH_NAMESPACE:8910"
         securityContext:
           runAsUser: 2000
+        volumeMounts:
+        - name: config
+          mountPath: /nalej/config/authx-config.json
+          subPath: authx-config.json
+          readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            defaultMode: 0644
+            name: device-api-authx-config
       imagePullSecrets:
       - name: nalej-registry
