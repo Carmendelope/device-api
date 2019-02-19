@@ -11,6 +11,8 @@ data:
   authx-config.json: |
     {"allows_all":false,
      "permissions": {
-       "/device_api.Devices/Register":{"must":["DEVICE"]}
+       "/device_api.Applications/RetrieveTargetApplications":{"must":["DEVICE"]},
+       "/device_api.Applications/RetrieveEndpoints":{"must":["DEVICE"]},
+       "/device_api.Device/RetrieveDeviceLabels":{"must":["DEVICE"]}
      }
     }

@@ -73,14 +73,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:933bb3c01f64ca46537acedf0c04d07073d0c0486f14de0bd99b43e272b1a8db"
+  digest = "1:e05c47435258129f426654ec33c2861b4b870be854ccc819f8167110b272971f"
   name = "github.com/nalej/authx"
   packages = [
     "pkg/interceptor",
     "pkg/token",
   ]
   pruneopts = ""
-  revision = "8c5bf0552f5644645b0823846600b89f190fc1e1"
+  revision = "f3d7fc5462e44d3f6bda37ca48152699a5e62056"
 
 [[projects]]
   digest = "1:0cc441f3dfe124dd74f44dd7e466dfc17cc7edff468094fbc3847a96b5ebf6f7"
@@ -296,11 +296,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:991cf54090eb6e382daf2f243a0bcabdda4964a664e07feefbef2b7fb6bf2ae1"
+  digest = "1:34c712936a39a1a1ce8e02a30f177de243baca31b5a8a372f61bffc71e517e5a"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = ""
-  revision = "d0b11bdaac8adb652bff00e49bcacf992835621a"
+  revision = "153ac476189d567564fda94622d7a8c0fb338f6b"
 
 [[projects]]
   digest = "1:5acd3512b047305d49e8763eef7ba423901e85d5dd2fd1e71778a0ea8de10bd4"
