@@ -140,7 +140,7 @@ func (s *Service) LaunchGRPC(authConfig *interceptor.AuthorizationConfig) error 
 	applicationsManager := applications.NewManager(clients.appClient)
 	applicationsHandler := applications.NewHandler(applicationsManager)
 
-	grpcServer := grpc.NewServer(interceptor.WithServerAuthxInterceptor(
+	grpcServer := grpc.NewServer(interceptor.WithServerDeviceAuthxInterceptor(
 		interceptor.NewConfig(authConfig, s.Configuration.AuthSecret, s.Configuration.AuthHeader)))
 	grpc_device_api_go.RegisterDeviceServer(grpcServer, deviceHandler)
 	grpc_device_api_go.RegisterApplicationsServer(grpcServer, applicationsHandler)
