@@ -50,6 +50,17 @@
   version = "v1.7.0"
 
 [[projects]]
+  digest = "1:3313a63031ae281e5f6fd7b0bbca733dfa04d2429df86519e3b4d4c016ccb836"
+  name = "github.com/hashicorp/golang-lru"
+  packages = [
+    ".",
+    "simplelru",
+  ]
+  pruneopts = ""
+  revision = "20f1fb78b0740ba8c3cb143a61e86ba5c8669768"
+  version = "v0.5.0"
+
+[[projects]]
   digest = "1:b3c5b95e56c06f5aa72cb2500e6ee5f44fcd122872d4fec2023a488e561218bc"
   name = "github.com/hpcloud/tail"
   packages = [
@@ -73,14 +84,15 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:e05c47435258129f426654ec33c2861b4b870be854ccc819f8167110b272971f"
+  digest = "1:76563ae9f5160b7053d18fc6d088187a1838117034d1c4debd3f7421e9eab9f2"
   name = "github.com/nalej/authx"
   packages = [
     "pkg/interceptor",
+    "pkg/interceptor/devinterceptor",
     "pkg/token",
   ]
   pruneopts = ""
-  revision = "f3d7fc5462e44d3f6bda37ca48152699a5e62056"
+  revision = "64436cd2a18af0feb725b027c58c4aa235a0dc51"
 
 [[projects]]
   digest = "1:0cc441f3dfe124dd74f44dd7e466dfc17cc7edff468094fbc3847a96b5ebf6f7"
@@ -107,12 +119,20 @@
   version = "v0.0.28"
 
 [[projects]]
-  digest = "1:bb69634b2e62f03ff03e45a938ef940d75ef7731c6379cef81acf55aba79d32f"
+  digest = "1:04ab94c90e7bce3f0ccf049c17c4c784da6819bca629e6ea98dcfe1f9b3a7f7a"
   name = "github.com/nalej/grpc-authx-go"
   packages = ["."]
   pruneopts = ""
-  revision = "698e393c8afcfd9c48d660285f304a2e4e976894"
-  version = "v0.0.41"
+  revision = "3982becdfade5f6fe16da9a585747850b61eefa3"
+  version = "v0.0.42"
+
+[[projects]]
+  digest = "1:46de8e777e399093354063d3df58f7f7c7c3bb5ca64bd4b80fea936d1d70ee02"
+  name = "github.com/nalej/grpc-cluster-api-go"
+  packages = ["."]
+  pruneopts = ""
+  revision = "52dea208510b931f8c0bd3ff49d0f29170e595a4"
+  version = "v0.0.18"
 
 [[projects]]
   digest = "1:44f7426538411ea9f774f96e3b102decc9f549b188e55e29ecc15be69542a96b"
@@ -123,12 +143,12 @@
   version = "v0.0.30"
 
 [[projects]]
-  digest = "1:67a89aaba9fe8469229f39e2bad759667f5a993ae8f901e6205dc9239f04ade1"
+  digest = "1:39ef0eed8c1382463c61b729277ca7af9ffc33fcd13984c2fa5bef117ee8b297"
   name = "github.com/nalej/grpc-conductor-go"
   packages = ["."]
   pruneopts = ""
-  revision = "a0083d5a02cfc712bf84b8eaec37b0bdb88f56a7"
-  version = "v0.0.82"
+  revision = "53542e1b0bebd1506ffb43fa366047127ef0f2c7"
+  version = "v0.0.84"
 
 [[projects]]
   digest = "1:df0106ac31c91f013f447cfc9eed176676ea5cfe1ac5d38f56802d5af55b4382"
@@ -139,12 +159,12 @@
   version = "v0.0.3"
 
 [[projects]]
-  digest = "1:9303d606290264d6e7016d5c838148977ce0d306e97e19058da63d77314bbc62"
+  digest = "1:8f1edf5c58d91034b9d696926aeddada013e74e3c92399f0241aa5f43869b20f"
   name = "github.com/nalej/grpc-device-controller-go"
   packages = ["."]
   pruneopts = ""
-  revision = "d9ef78c5897c9feccc1ae099051881425e5e733e"
-  version = "v0.0.5"
+  revision = "0abccea18e06fdfa1c4519c16a2ce4d9d7e26b7f"
+  version = "v0.0.6"
 
 [[projects]]
   digest = "1:856391a26533c0a6fc8a0798631f2248838a703398580db0e044cb1ab96a2b9b"
@@ -155,12 +175,12 @@
   version = "v0.0.30"
 
 [[projects]]
-  digest = "1:fb479de2eaa2ba61fae1f839838ecb6a198bd4680e942f1efb67010c79aa4829"
+  digest = "1:92df2be45e341ebe23c6b4137ddd489b7d45be3dfcd64e451e954a5df4e0258c"
   name = "github.com/nalej/grpc-device-manager-go"
   packages = ["."]
   pruneopts = ""
-  revision = "d8756adfcd58f2caf0e898eee2301055a1c0f606"
-  version = "v0.0.5"
+  revision = "ed10c3e3f5e2611068930c4f1442f37a93efde7f"
+  version = "v0.0.6"
 
 [[projects]]
   digest = "1:6973c345abcc2530f5ae4ddaa179521470a37b9cc8a2b7568227190df7f381e2"
@@ -169,6 +189,22 @@
   pruneopts = ""
   revision = "ea9783c67dc5bf7f6429935c0fdc59eee3f361e1"
   version = "v0.0.32"
+
+[[projects]]
+  digest = "1:858ed50179eb722fdf9a577f37186f7a932304d32d2b4a49f8b58c06266a43e1"
+  name = "github.com/nalej/grpc-login-api-go"
+  packages = ["."]
+  pruneopts = ""
+  revision = "f9b38bbf198bc518f7906c8d7e16dd4e5c8ee3b0"
+  version = "v0.0.21"
+
+[[projects]]
+  digest = "1:06946c8f73e61dd1585d9de58d7c89d4acc28a868c7531f86113eb46bc3a8adf"
+  name = "github.com/nalej/grpc-network-go"
+  packages = ["."]
+  pruneopts = ""
+  revision = "b206784fef662f5daafa38306b9cbe6d9a0d4db3"
+  version = "v0.0.30"
 
 [[projects]]
   digest = "1:9921e275160e1559963d6452a918027db3563746fd03f63369ab104c0fbf16bf"
@@ -296,11 +332,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:34c712936a39a1a1ce8e02a30f177de243baca31b5a8a372f61bffc71e517e5a"
+  digest = "1:fcf1709e13fe39cf6343de351e86a0683cc593fe02f5cdb3c0757084bca2fa7b"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = ""
-  revision = "153ac476189d567564fda94622d7a8c0fb338f6b"
+  revision = "a9d3bda3a223baa6bba6ef412cb273f0fd163c05"
 
 [[projects]]
   digest = "1:5acd3512b047305d49e8763eef7ba423901e85d5dd2fd1e71778a0ea8de10bd4"
@@ -423,8 +459,10 @@
   input-imports = [
     "github.com/grpc-ecosystem/grpc-gateway/runtime",
     "github.com/nalej/authx/pkg/interceptor",
+    "github.com/nalej/authx/pkg/interceptor/devinterceptor",
     "github.com/nalej/derrors",
     "github.com/nalej/grpc-application-manager-go",
+    "github.com/nalej/grpc-authx-go",
     "github.com/nalej/grpc-common-go",
     "github.com/nalej/grpc-device-api-go",
     "github.com/nalej/grpc-device-go",

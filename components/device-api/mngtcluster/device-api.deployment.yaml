@@ -30,12 +30,6 @@ spec:
       containers:
       - name: device-api
         image: __NPH_REGISTRY.azurecr.io/__NPH_REGISTRY_NAMESPACE/device-api:__NPH_VERSION
-        env:
-        - name: AUTH_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: authx-secret
-              key: secret
         volumeMounts:
         - name: authx-config
           mountPath: "/nalej/config"
@@ -45,8 +39,8 @@ spec:
         - "run"
         - "--debug"
         - "--deviceManagerAddress=device-manager.__NPH_NAMESPACE:6010"
+        - "--authxAddress=authx.__NPH_NAMESPACE:8810"
         - "--authHeader=authorization"
-        - "--authSecret=$(AUTH_SECRET)"
         - "--authConfigPath=/nalej/config/authx-config.json"
         - "--applicationsManagerAddress=application-manager.__NPH_NAMESPACE:8910"
         securityContext:
