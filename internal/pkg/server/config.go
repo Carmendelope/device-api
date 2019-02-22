@@ -9,7 +9,6 @@ import (
 	"github.com/nalej/derrors"
 	"github.com/nalej/device-api/version"
 	"github.com/rs/zerolog/log"
-	"strings"
 )
 
 type Config struct {
@@ -21,12 +20,12 @@ type Config struct {
 	DeviceManagerAddress string
 	// ApplicationsManagerAddress with the host:port to connect to the Applications manager.
 	ApplicationsManagerAddress string
-	// AuthSecret contains the shared authx secret.
-	AuthSecret string
 	// AuthHeader contains the name of the target header.
 	AuthHeader string
 	// AuthConfigPath contains the path of the file with the authentication configuration.
 	AuthConfigPath string
+	// AuthxAddress with the host:port to connect to the Authx manager.
+	AuthxAddress string
 }
 
 
@@ -44,12 +43,16 @@ func (conf *Config) Validate() derrors.Error {
 		return derrors.NewInvalidArgumentError("applicationsManagerAddress must be set")
 	}
 
-	if conf.AuthHeader == "" || conf.AuthSecret == "" {
-		return derrors.NewInvalidArgumentError("Authorization header and secret must be set")
+	if conf.AuthHeader == "" {
+		return derrors.NewInvalidArgumentError("Authorization header must be set")
 	}
 
 	if conf.AuthConfigPath == "" {
 		return derrors.NewInvalidArgumentError("authConfigPath must be set")
+	}
+
+	if conf.AuthxAddress == "" {
+		return derrors.NewInvalidArgumentError("authxAddress must be set")
 	}
 
 	return nil
@@ -66,6 +69,7 @@ func (conf *Config) Print() {
 	log.Info().Int("port", conf.HTTPPort).Msg("HTTP port")
 	log.Info().Str("URL", conf.DeviceManagerAddress).Msg("Device Manager")
 	log.Info().Str("URL", conf.ApplicationsManagerAddress).Msg("Applications Manager")
-	log.Info().Str("header", conf.AuthHeader).Str("secret", strings.Repeat("*", len(conf.AuthSecret))).Msg("Authorization")
+	log.Info().Str("URL", conf.AuthxAddress).Msg("Authx")
+	log.Info().Str("header", conf.AuthHeader).Msg("Authorization")
 	log.Info().Str("path", conf.AuthConfigPath).Msg("Permissions file")
 }

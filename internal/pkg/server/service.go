@@ -9,10 +9,12 @@ import (
 	"fmt"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/nalej/authx/pkg/interceptor"
+	"github.com/nalej/authx/pkg/interceptor/devinterceptor"
 	"github.com/nalej/derrors"
 	"github.com/nalej/device-api/internal/pkg/server/applications"
 	"github.com/nalej/device-api/internal/pkg/server/device"
 	"github.com/nalej/grpc-application-manager-go"
+	"github.com/nalej/grpc-authx-go"
 	"github.com/nalej/grpc-device-manager-go"
 	"github.com/nalej/grpc-utils/pkg/tools"
 	"github.com/nalej/grpc-device-api-go"
@@ -40,6 +42,7 @@ func NewService(conf Config) *Service {
 type Clients struct {
 	deviceClient grpc_device_manager_go.DevicesClient
 	appClient   grpc_application_manager_go.ApplicationManagerClient
+	authxClient grpc_authx_go.AuthxClient
 }
 
 func (s *Service) GetClients() (*Clients, derrors.Error) {
@@ -55,8 +58,13 @@ func (s *Service) GetClients() (*Clients, derrors.Error) {
 	}
 	appClient := grpc_application_manager_go.NewApplicationManagerClient(appConn)
 
+	authxConn, err := grpc.Dial(s.Configuration.AuthxAddress, grpc.WithInsecure())
+	if err != nil{
+		return nil, derrors.AsError(err, "cannot create connection with the authx component")
+	}
+	authxClient := grpc_authx_go.NewAuthxClient(authxConn)
 
-	return &Clients{deviceClient, appClient}, nil
+	return &Clients{deviceClient, appClient, authxClient}, nil
 }
 
 // Run the service, launch the REST service handler.
@@ -140,8 +148,13 @@ func (s *Service) LaunchGRPC(authConfig *interceptor.AuthorizationConfig) error 
 	applicationsManager := applications.NewManager(clients.appClient)
 	applicationsHandler := applications.NewHandler(applicationsManager)
 
-	grpcServer := grpc.NewServer(interceptor.WithServerDeviceAuthxInterceptor(
-		interceptor.NewConfig(authConfig, s.Configuration.AuthSecret, s.Configuration.AuthHeader)))
+	accessManager, aErr := devinterceptor.NewMngtSecretAccessWithClient(clients.authxClient, devinterceptor.DefaultCacheEntries)
+	if err != nil{
+		log.Fatal().Str("trace", aErr.DebugReport()).Msg("cannot create management secret access")
+	}
+
+	authxConfig := interceptor.NewConfig(authConfig, "", s.Configuration.AuthHeader)
+	grpcServer := grpc.NewServer(interceptor.WithDeviceAuthxInterceptor(accessManager, authxConfig))
 	grpc_device_api_go.RegisterDeviceServer(grpcServer, deviceHandler)
 	grpc_device_api_go.RegisterApplicationsServer(grpcServer, applicationsHandler)
 
