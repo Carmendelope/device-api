@@ -12,6 +12,7 @@ import (
 
 const emptyOrganizationId = "organization_id cannot be empty"
 const emptyDeviceGroupId = "device_group_id cannot be empty"
+const emptyDeviceGroupName = "device_group_name cannot be empty"
 const emptyDeviceId = "device_id cannot be empty"
 const emptyAppInstanceId = "app_instance_id cannot be empty"
 
@@ -33,8 +34,8 @@ func ValidApplicationFilter(filter *grpc_application_manager_go.ApplicationFilte
 	if filter.OrganizationId == "" {
 		return derrors.NewInvalidArgumentError(emptyOrganizationId)
 	}
-	if filter.DeviceGroupId == "" {
-		return derrors.NewInvalidArgumentError(emptyDeviceGroupId)
+	if filter.DeviceGroupName == "" {
+		return derrors.NewInvalidArgumentError(emptyDeviceGroupName)
 	}
 	return nil
 }

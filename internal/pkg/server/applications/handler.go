@@ -32,9 +32,6 @@ func (h*Handler) RetrieveTargetApplications(ctx context.Context, filter *grpc_ap
 	if filter.OrganizationId != rm.OrganizationID {
 		return nil, derrors.NewPermissionDeniedError("cannot access requested OrganizationID")
 	}
-	if filter.DeviceGroupId != rm.DeviceGroupID {
-		return nil, derrors.NewPermissionDeniedError("cannot access requested DeviceGroupID")
-	}
 	err = entities.ValidApplicationFilter(filter)
 	if err != nil {
 		return nil, conversions.ToGRPCError(err)
