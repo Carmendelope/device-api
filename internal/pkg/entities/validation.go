@@ -7,11 +7,13 @@ package entities
 import (
 	"github.com/nalej/derrors"
 	"github.com/nalej/grpc-application-manager-go"
+	"github.com/nalej/grpc-device-api-go"
 	"github.com/nalej/grpc-device-go"
 )
 
 const emptyOrganizationId = "organization_id cannot be empty"
 const emptyDeviceGroupId = "device_group_id cannot be empty"
+const emptyDeviceGroupName = "device_group_name cannot be empty"
 const emptyDeviceId = "device_id cannot be empty"
 const emptyAppInstanceId = "app_instance_id cannot be empty"
 
@@ -28,13 +30,13 @@ func ValidDeviceId(deviceId *grpc_device_go.DeviceId) derrors.Error {
 	return nil
 }
 
-func ValidApplicationFilter(filter *grpc_application_manager_go.ApplicationFilter) derrors.Error {
+func ValidApplicationFilter(filter *grpc_device_api_go.ApplicationFilter) derrors.Error {
 
 	if filter.OrganizationId == "" {
 		return derrors.NewInvalidArgumentError(emptyOrganizationId)
 	}
-	if filter.DeviceGroupId == "" {
-		return derrors.NewInvalidArgumentError(emptyDeviceGroupId)
+	if filter.DeviceGroupName == "" {
+		return derrors.NewInvalidArgumentError(emptyDeviceGroupName)
 	}
 	return nil
 }
