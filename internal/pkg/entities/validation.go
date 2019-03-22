@@ -7,6 +7,7 @@ package entities
 import (
 	"github.com/nalej/derrors"
 	"github.com/nalej/grpc-application-manager-go"
+	"github.com/nalej/grpc-device-api-go"
 	"github.com/nalej/grpc-device-go"
 )
 
@@ -29,7 +30,7 @@ func ValidDeviceId(deviceId *grpc_device_go.DeviceId) derrors.Error {
 	return nil
 }
 
-func ValidApplicationFilter(filter *grpc_application_manager_go.ApplicationFilter) derrors.Error {
+func ValidApplicationFilter(filter *grpc_device_api_go.ApplicationFilter) derrors.Error {
 
 	if filter.OrganizationId == "" {
 		return derrors.NewInvalidArgumentError(emptyOrganizationId)

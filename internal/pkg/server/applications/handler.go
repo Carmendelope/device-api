@@ -10,6 +10,7 @@ import (
 	"github.com/nalej/derrors"
 	"github.com/nalej/device-api/internal/pkg/entities"
 	"github.com/nalej/grpc-application-manager-go"
+	"github.com/nalej/grpc-device-api-go"
 	"github.com/nalej/grpc-utils/pkg/conversions"
 )
 
@@ -24,7 +25,7 @@ func NewHandler(manager Manager) *Handler {
 }
 
 // RetrieveTargetApplications retrieves the list of target applications that accept data from the device.
-func (h*Handler) RetrieveTargetApplications(ctx context.Context, filter *grpc_application_manager_go.ApplicationFilter) (*grpc_application_manager_go.TargetApplicationList, error) {
+func (h*Handler) RetrieveTargetApplications(ctx context.Context, filter *grpc_device_api_go.ApplicationFilter) (*grpc_application_manager_go.TargetApplicationList, error) {
 	rm, err := interceptor.GetDeviceRequestMetadata(ctx)
 	if err != nil {
 		return nil, conversions.ToGRPCError(err)
@@ -33,10 +34,17 @@ func (h*Handler) RetrieveTargetApplications(ctx context.Context, filter *grpc_ap
 		return nil, derrors.NewPermissionDeniedError("cannot access requested OrganizationID")
 	}
 	err = entities.ValidApplicationFilter(filter)
+
 	if err != nil {
 		return nil, conversions.ToGRPCError(err)
 	}
-	return h.Manager.RetrieveTargetApplications(filter)
+
+	return h.Manager.RetrieveTargetApplications(&grpc_application_manager_go.ApplicationFilter{
+		OrganizationId: filter.OrganizationId,
+		DeviceGroupId: rm.DeviceGroupID,
+		DeviceGroupName: filter.DeviceGroupName,
+		MatchLabels: filter.MatchLabels,
+	})
 }
 
 // RetrieveTargetApplications retrieves the list of target applications that accept data from the device.
