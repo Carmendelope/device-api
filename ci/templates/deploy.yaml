@@ -1,0 +1,49 @@
+parameters:
+  namespace: "nalej"
+
+jobs:
+- job: DeployComponent
+  
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  variables:
+    - group: docker-registries
+    - name: componentList
+      value: 'device-api'
+
+  steps:
+    - task: DownloadSecureFile@1
+      inputs:
+        secureFile: ci_kubeconfig.yaml
+      displayName: 'Get K8S configuration file'
+
+    - script: |
+        version=$(cat .version)
+        for component in $(componentList); do
+          if [ -d components/$component/appcluster ]; then
+            mkdir -p dist/yaml/appcluster
+            cp components/$component/appcluster/*.yaml dist/yaml/appcluster/. ; \
+            cd dist/yaml/appcluster && find . -type f -name '*.yaml' | xargs sed -i '' 's/__NPH_VERSION/$version/g' && cd - > /dev/null ; \
+            cd dist/yaml/appcluster && find . -type f -name '*.yaml' | xargs sed -i '' 's/__NPH_NAMESPACE/$NAMESPACE/g' && cd - > /dev/null ; \
+            cd dist/yaml/appcluster && find . -type f -name '*.yaml' | xargs sed -i '' 's/__NPH_REGISTRY_NAMESPACE/nalej/g' && cd - > /dev/null ; \
+            cd dist/yaml/appcluster && find . -type f -name '*.yaml' | xargs sed -i '' 's/__NPH_REGISTRY/$(stagingDockerRegistry)/g' && cd - > /dev/null ; \
+          fi ; \
+          if [ -d components/$component/mngtcluster ]; then \
+            mkdir -p dist/yaml/mngtcluster
+            cp components/$component/mngtcluster/*.yaml dist/yaml/mngtcluster/. ; \
+            cd dist/yaml/mngtcluster && find . -type f -name '*.yaml' | xargs sed -i '' 's/__NPH_VERSION/$version/g' && cd - > /dev/null ; \
+            cd dist/yaml/mngtcluster && find . -type f -name '*.yaml' | xargs sed -i '' 's/__NPH_NAMESPACE/$NAMESPACE/g' && cd - > /dev/null ; \
+            cd dist/yaml/mngtcluster && find . -type f -name '*.yaml' | xargs sed -i '' 's/__NPH_REGISTRY_NAMESPACE/nalej/g' && cd - > /dev/null ; \
+            cd dist/yaml/mngtcluster && find . -type f -name '*.yaml' | xargs sed -i '' 's/__NPH_REGISTRY/$(stagingDockerRegistry)/g' && cd - > /dev/null ; \
+          fi ; \
+        done
+      env:
+        NAMESPACE: ${{ parameters.namespace }}
+      displayName: 'Render resource YAML files'
+    
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: k8sYAMLfiles
+        targetPath: dist/yaml
+      displayName: Publish K8S YAML files
