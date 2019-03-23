@@ -1,39 +1,45 @@
 variables:
-  namespace: $(Build.SourceVersion)-$(Build.BuildId)
+  - group: docker-registries
+  - name: componentList
+    value: "device-api"
+  - name: namespace
+    value: $(Build.SourceVersion)-$(Build.BuildId)
+  - name: kubeconfig
+    value: $(Agent.TempDirectory)/ci_kubeconfig.yaml
 
 jobs:
-- job: CreateK8SNamespace
+- job: DeployComponent
   pool:
     vmImage: 'Ubuntu-16.04'
   
   steps:
-  - task: DownloadSecureFile@1
-    inputs:
-      secureFile: ci_kubeconfig.yaml
-    displayName: "Get K8S configuration file"
-
-  - script: |
-      kubectl --kubeconfig $(Agent.TempDirectory) create ns $(namespace)
-    displayName: Create kubernetes namespace
-
-- job: DeployComponent
-  dependsOn: CreateK8SNamespace
-  steps:
-  - template: templates/deploy.yaml
+  - template: templates/render_yaml.yaml
     parameters:
       namespace: $(namespace)
+      componentList: $(componentList)
+      dockerRegistry: $(stagingDockerRegistry)
 
-- job: DeleteK8SNamespace
-  dependsOn: DeployComponent
-  pool:
-    vmImage: 'Ubuntu-16.04'
-
-  steps:
   - task: DownloadSecureFile@1
     inputs:
       secureFile: ci_kubeconfig.yaml
     displayName: "Get K8S configuration file"
+  
+  - script: |
+      kubectl --kubeconfig $(kubeconfig) create ns $(namespace)
+    displayName: Create kubernetes namespace
+
+  - template: templates/k8s_deploy.yaml
+    parameters:
+      kubeconfig: $(kubeconfig)
+      platform: mngtcluster
+  
+  - template: templates/verify_k8s_deploy.yaml
+    parameters:
+      kubeconfig: $(kubeconfig)
+      namespace: $(namespace)
+      resourceKind: deployment
+      resourceName: device-api
 
   - script: |
-      kubectl --kubeconfig $(Agent.TempDirectory) delete ns $(namespace)
+      kubectl --kubeconfig $(kubeconfig) delete ns $(namespace)
     displayName: Delete kubernetes namespace

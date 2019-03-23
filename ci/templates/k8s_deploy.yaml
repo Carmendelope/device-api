@@ -1,0 +1,9 @@
+parameters:
+  kubeconfig: "$HOME/.kube/config"
+  platform: ""
+
+steps:
+  - script: |
+      kubectl --kubeconfig $(kubeconfig) create -f .
+    workingDirectory: dist/yaml/$(platform)
+    displayName: Create kubernetes resources

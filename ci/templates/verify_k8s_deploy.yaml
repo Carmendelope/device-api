@@ -1,0 +1,22 @@
+parameters:
+  kubeconfig: $HOME/.kube/config
+  namespace: nalej
+  resourceKind: ""
+  resourceName: ""
+
+steps:
+  - script: |
+      isOk=1
+      for (( i=0; i<36; i++ ))
+      do
+        expected=$(kubectl --kubeconfig $(kubeconfig) -n $(namespace) get $(resourceKind) $(resourceName) -o=jsonpath='{.spec.replicas}')
+        ready=$(kubectl --kubeconfig $(kubeconfig) -n $(namespace) get $(resourceKind) $(resourceName) -o=jsonpath='{.status.readyReplicas}')
+        if [ "$expected" == "$ready" ]; then
+          $isOk=0
+          break
+        else
+          sleep(10)
+        fi
+      done
+      exit $isOk
+    displayName: Verify kubernetes resources are running
