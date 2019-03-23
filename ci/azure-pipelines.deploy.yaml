@@ -17,6 +17,8 @@ jobs:
     displayName: Create kubernetes namespace
 
 - template: templates/deploy.yaml
+  parameters:
+    namespace: $(namespace)
 
 - job: DeleteK8SNamespace
   pool:
