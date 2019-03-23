@@ -1,19 +1,161 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+jobs:
+- job: MainWorkflow
 
-trigger:
-- master
+  pool:
+    vmImage: 'Ubuntu-16.04'
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+  variables:
+  - group: docker-registries
+  - group: ci-service-principal
+  - group: ssh-credentials
+  - name: GOBIN
+    value: '$(GOPATH)/bin'
+  - name: GOROOT
+    value: '/usr/local/go1.11'
+  - name: GOPATH
+    value: '$(system.defaultWorkingDirectory)/gopath'
+  - name: modulePath
+    value: '$(GOPATH)/src/github.com/$(Build.Repository.Name)'
+  - name: appList
+    value: 'device-api'
+  - name: imageList
+    value: 'device-api'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  steps:
+  - script: |
+      mkdir -p '$(GOBIN)'
+      mkdir -p '$(GOPATH)/pkg'
+      mkdir -p '$(modulePath)'
+      shopt -s extglob
+      shopt -s dotglob
+      mv !(gopath) '$(modulePath)'
+      echo '##vso[task.prependpath]$(GOBIN)'
+      echo '##vso[task.prependpath]$(GOROOT)/bin'
+    displayName: 'Set up the Go workspace'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - task: InstallSSHKey@0
+    inputs:
+      hostName: '$(hostName)'
+      sshPublicKey: '$(sshPublicKey)'
+      sshKeySecureFile: "github_ssh_key"
+    displayName: "Install git credentials"
+
+  - bash: 'git config --global url."git@github.com:".insteadOf "https://github.com/"'
+    displayName: "Set up git"
+
+  - script: |
+      go get github.com/jstemmer/go-junit-report
+      go get github.com/axw/gocov/gocov
+      go get github.com/AlekSi/gocov-xml
+      go get -u gopkg.in/matm/v1/gocov-html
+      if [ -f Gopkg.toml ]; then
+          curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+          dep ensure
+      fi
+    workingDirectory: '$(modulePath)'
+    displayName: 'Get dependencies'
+
+  - script: |
+      go test -v -coverprofile=coverage.txt -covermode count ./... 2>&1 | go-junit-report > junit.xml
+      gocov convert coverage.txt > coverage.json    
+      gocov-xml < coverage.json > coverage.xml
+      gocov-html < coverage.json > index.html
+      mkdir reports
+      cp junit.xml ./reports/junit.xml
+      cp coverage.xml ./reports/coverage.xml
+      cp index.html ./reports/index.html
+    continueOnError: true
+    workingDirectory: '$(modulePath)'
+    displayName: 'Run unit tests'
+
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '$(modulePath)/reports/junit.xml'
+    displayName: 'Publish test results'
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'cobertura'
+      summaryFileLocation: '$(modulePath)/reports/coverage.xml'
+      reportDirectory: '$(modulePath)/reports/'
+    displayName: 'Publish code coverage results'
+
+  - script: |
+      version=$(cat .version)
+      for app in $(appList); do
+        if [ -d cmd/$app ]; then
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X main.MainVersion=$verion -X main.MainCommit=$(Build.SourceVersion)" -o bin/linux-amd64/$app ./cmd/$app
+        fi
+      done
+    continueOnError: true
+    workingDirectory: '$(modulePath)'
+    displayName: Build GNU/Linux binaries
+  
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'binaries_linux-amd64'
+      targetPath: '$(modulePath)/bin/linux-amd64'
+    displayName: 'Publish GNU/Linux amd64 binaries' 
+
+  - script: |
+      docker login --username $(spAppId) --password $(spPassword) $(stagingDockerRegistry)
+    displayName: Docker login on staging registry
+    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))  
+
+  - script: |
+      version=$(cat .version)
+      for image in $(imageList); do
+        mkdir -p dist/$image
+        cp bin/linux-amd64/$image dist/$image/$image
+        if [ -d components/$image/dockerenv ]; then
+          cp -r components/$image/dockerenv dist/$image/.
+        fi
+        docker build --no-cache -t $(stagingDockerRegistry)/citesting/$image:$version -f components/$image/Dockerfile dist/$image
+      done
+    continueOnError: true
+    workingDirectory: '$(modulePath)'
+    displayName: Docker build of the images
+    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  - script: |
+      version=$(cat .version)
+      for image in $(imageList); do
+        docker push $(stagingDockerRegistry)/citesting/$image:$version
+      done
+    continueOnError: true
+    workingDirectory: '$(modulePath)'
+    displayName: Docker push of the images to the staging registry
+    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  - script: |
+      version=$(cat .version)
+      for app in $(appList); do
+        if [ -d cmd/$app ]; then
+          CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags "-X main.MainVersion=$verion -X main.MainCommit=$(Build.SourceVersion)" -o bin/darwin-amd64/$app ./cmd/$app
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags "-X main.MainVersion=$verion -X main.MainCommit=$(Build.SourceVersion)" -o bin/windows-amd64/$app.exe ./cmd/$app
+        fi
+      done
+    continueOnError: true
+    workingDirectory: '$(modulePath)'
+    displayName: Build macOS & Windows binaries
+    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'binaries_darwin-amd64'
+      targetPath: '$(modulePath)/bin/darwin-amd64'
+    displayName: 'Publish macOS amd64 binaries'
+    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'binaries_windows-amd64'
+      targetPath: '$(modulePath)/bin/windows-amd64'
+    displayName: 'Publish Windows amd64 binaries'
+    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  - script: |
+      rm -rf $HOME/.docker/config.json
+    displayName: Cleanup
+    condition: always()
