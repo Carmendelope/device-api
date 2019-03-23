@@ -7,13 +7,19 @@ variables:
   - name: kubeconfig
     value: $(Agent.TempDirectory)/ci_kubeconfig.yaml
 
+resources:
+  repositories:
+    - repository: ci_templates
+      type: github
+      name: nalej/ci-templates
+
 jobs:
 - job: DeployComponent
   pool:
     vmImage: 'Ubuntu-16.04'
   
   steps:
-  - template: templates/render_yaml.yaml
+  - template: k8s/render_yaml.yaml@ci_templates
     parameters:
       namespace: $(namespace)
       componentList: $(componentList)
@@ -24,22 +30,24 @@ jobs:
       secureFile: ci_kubeconfig.yaml
     displayName: "Get K8S configuration file"
   
-  - script: |
-      kubectl --kubeconfig $(kubeconfig) create ns $(namespace)
-    displayName: Create kubernetes namespace
+  - template: k8s/ns/create.yaml@ci_templates
+    parameters:
+      kubeconfig: $(kubeconfig)
+      namespace: $(namespace))
 
-  - template: templates/k8s_deploy.yaml
+  - template: k8s/resources/create.yaml@ci_templates
     parameters:
       kubeconfig: $(kubeconfig)
       platform: mngtcluster
   
-  - template: templates/verify_k8s_deploy.yaml
+  - template: k8s/resources/verify_creation.yaml@ci_templates
     parameters:
       kubeconfig: $(kubeconfig)
       namespace: $(namespace)
       resourceKind: deployment
       resourceName: device-api
 
-  - script: |
-      kubectl --kubeconfig $(kubeconfig) delete ns $(namespace)
-    displayName: Delete kubernetes namespace
+  - template: k8s/ns/delete.yaml@ci_templates
+    parameters:
+      kubeconfig: $(kubeconfig)
+      namespace: $(namespace))
