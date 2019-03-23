@@ -33,28 +33,32 @@ jobs:
         displayName: "Prepare YAML file workspace"
 
       - script: |
-          version=$(cat .version)
-          for file in *.yaml
-          do
-              sed -i -e "s/__NPH_VERSION/$version/g" $file
-              sed -i -e "s/__NPH_NAMESPACE/$NAMESPACE/g" $file
-              sed -i -e "s/__NPH_REGISTRY_NAMESPACE/nalej/g" $file
-              sed -i -e "s/__NPH_REGISTRY/$(stagingDockerRegistry)/g" $file
-          done
+          version=$(cat ../../../.version)
+          if [ "$(ls -A)" ]; then
+            for file in *.yaml
+            do
+                sed -i -e "s/__NPH_VERSION/$version/g" $file
+                sed -i -e "s/__NPH_NAMESPACE/$NAMESPACE/g" $file
+                sed -i -e "s/__NPH_REGISTRY_NAMESPACE/nalej/g" $file
+                sed -i -e "s/__NPH_REGISTRY/$(stagingDockerRegistry)/g" $file
+            done
+          fi
         env:
           NAMESPACE: ${{ parameters.namespace }}
         workingDirectory: dist/yaml/mngtcluster
         displayName: "Render Management platform YAML files"
       
       - script: |
-          version=$(cat .version)
-          for file in *.yaml
-          do
-              sed -i -e "s/__NPH_VERSION/$version/g" $file
-              sed -i -e "s/__NPH_NAMESPACE/$NAMESPACE/g" $file
-              sed -i -e "s/__NPH_REGISTRY_NAMESPACE/nalej/g" $file
-              sed -i -e "s/__NPH_REGISTRY/$(stagingDockerRegistry)/g" $file
-          done
+          version=$(cat ../../../.version)
+          if [ "$(ls -A)" ]; then
+            for file in *.yaml
+            do
+                sed -i -e "s/__NPH_VERSION/$version/g" $file
+                sed -i -e "s/__NPH_NAMESPACE/$NAMESPACE/g" $file
+                sed -i -e "s/__NPH_REGISTRY_NAMESPACE/nalej/g" $file
+                sed -i -e "s/__NPH_REGISTRY/$(stagingDockerRegistry)/g" $file
+            done
+          fi
         env:
           NAMESPACE: ${{ parameters.namespace }}
         workingDirectory: dist/yaml/appcluster
