@@ -1,5 +1,5 @@
-trigger:
-  - master
+# trigger:
+#   - master
 
 variables:
   - group: docker-registries
@@ -55,3 +55,9 @@ jobs:
     parameters:
       kubeconfig: $(kubeconfig)
       namespace: $(namespace)
+
+  - template: k8s/render_yaml.yaml@ci_templates
+    parameters:
+      namespace: $(namespace)
+      componentList: $(componentList)
+      dockerRegistry: $(productionDockerRegistry)
