@@ -11,10 +11,14 @@ steps:
       do
         expected=$(kubectl --kubeconfig ${{ parameters.kubeconfig }} -n ${{ parameters.namespace }} get ${{ parameters.resourceKind }} ${{ parameters.resourceName }} -o=jsonpath='{.spec.replicas}')
         ready=$(kubectl --kubeconfig ${{ parameters.kubeconfig }} -n ${{ parameters.namespace }} get ${{ parameters.resourceKind }} ${{ parameters.resourceName }} -o=jsonpath='{.status.readyReplicas}')
+        echo "Expected: $expected"
+        echo "Ready: $expected"
         if [ "$expected" == "$ready" ]; then
           isOk=0
           break
         else
+          echo "Not ready yet, waiting 10 seconds"
+          echo ""
           sleep 10
         fi
       done
