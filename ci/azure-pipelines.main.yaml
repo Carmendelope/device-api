@@ -50,81 +50,29 @@ jobs:
     parameters:
       modulePath: $(modulePath)
 
-  - script: |
-      version=$(cat .version)
-      for app in $(appList); do
-        if [ -d cmd/$app ]; then
-          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X main.MainVersion=$verion -X main.MainCommit=$(Build.SourceVersion)" -o bin/linux-amd64/$app ./cmd/$app
-        fi
-      done
-    continueOnError: true
-    workingDirectory: '$(modulePath)'
-    displayName: Build GNU/Linux binaries
+  - template: go/build.yaml@ci_templates
+    parameters:
+      modulePath: $(modulePath)
+      appList: $(appList)
   
-  - task: PublishPipelineArtifact@0
-    inputs:
-      artifactName: 'binaries_linux-amd64'
-      targetPath: '$(modulePath)/bin/linux-amd64'
-    displayName: 'Publish GNU/Linux amd64 binaries' 
-
-  - script: |
-      docker login --username $(spAppId) --password $(spPassword) $(stagingDockerRegistry)
-    displayName: Docker login on staging registry
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))  
-
-  - script: |
-      version=$(cat .version)
-      for image in $(imageList); do
-        mkdir -p dist/$image
-        cp bin/linux-amd64/$image dist/$image/$image
-        if [ -d components/$image/dockerenv ]; then
-          cp -r components/$image/dockerenv dist/$image/.
-        fi
-        docker build --no-cache -t $(stagingDockerRegistry)/nalej/$image:$version -f components/$image/Dockerfile dist/$image
-      done
-    continueOnError: true
-    workingDirectory: '$(modulePath)'
-    displayName: Docker build of the images
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-
-  - script: |
-      version=$(cat .version)
-      for image in $(imageList); do
-        docker push $(stagingDockerRegistry)/nalej/$image:$version
-      done
-    continueOnError: true
-    workingDirectory: '$(modulePath)'
-    displayName: Docker push of the images to the staging registry
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-
-  - script: |
-      version=$(cat .version)
-      for app in $(appList); do
-        if [ -d cmd/$app ]; then
-          CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags "-X main.MainVersion=$verion -X main.MainCommit=$(Build.SourceVersion)" -o bin/darwin-amd64/$app ./cmd/$app
-          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags "-X main.MainVersion=$verion -X main.MainCommit=$(Build.SourceVersion)" -o bin/windows-amd64/$app.exe ./cmd/$app
-        fi
-      done
-    continueOnError: true
-    workingDirectory: '$(modulePath)'
-    displayName: Build macOS & Windows binaries
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-
-  - task: PublishPipelineArtifact@0
-    inputs:
-      artifactName: 'binaries_darwin-amd64'
-      targetPath: '$(modulePath)/bin/darwin-amd64'
-    displayName: 'Publish macOS amd64 binaries'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  - template: docker/login.yaml@ci_templates
+    parameters:
+      username: $(spAppId)
+      password: $(spPassword)
+      dockerRegistry: $(stagingDockerRegistry)
+    
+  - template: docker/build.yaml@ci_templates
+    parameters:
+      modulePath: $(modulePath)
+      imageList: $(imageList)
+      dockerRegistry: $(stagingDockerRegistry)
   
-  - task: PublishPipelineArtifact@0
-    inputs:
-      artifactName: 'binaries_windows-amd64'
-      targetPath: '$(modulePath)/bin/windows-amd64'
-    displayName: 'Publish Windows amd64 binaries'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-
-  - script: |
-      rm -rf $HOME/.docker/config.json
-    displayName: Cleanup
-    condition: always()
+  - template: docker/push.yaml@ci_templates
+    parameters:
+      modulePath: $(modulePath)
+      imageList: $(imageList)
+      dockerRegistry: $(stagingDockerRegistry)
+    
+  - template: docker/logout.yaml@ci_templates
+    parameters:
+      dockerRegistry: $(stagingDockerRegistry)
