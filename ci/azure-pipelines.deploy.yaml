@@ -18,20 +18,21 @@ jobs:
     displayName: Generate random namespace name
   
   - script: |
-      randomNamespace="##vso[task.setvariable variable=randomNamespace;isOutput=true]$(cat randomNamespace)"
-      echo $randomNamespace
+      echo '##vso[task.setvariable variable=randomNamespace;isOutput=true]'$(cat randomNamespace)
     workingDirectory: $(system.defaultWorkingDirectory)
     name: generateRandomName
     displayName: Set random namespace as a variable
+  - script: echo $(generateRandomeName.randomNamespace)
+    name: echovar
 
-- job: CreateK8SNamespace
-  dependsOn: RandonNamespaceName
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  variables:
-    randomNamespace: $[ dependencies.RandomNamespaceName.outputs['generateRandomName.randomNamespace'] ]
+# - job: CreateK8SNamespace
+#   dependsOn: RandonNamespaceName
+#   pool:
+#     vmImage: 'Ubuntu-16.04'
+#   variables:
+#     randomNamespace: $[ dependencies.RandomNamespaceName.outputs['generateRandomName.randomNamespace'] ]
   
-  steps:
-    - script: echo $(randomNamespace)
+#   steps:
+#     - script: echo $(randomNamespace)
 
 # - template: templates/deploy.yaml
