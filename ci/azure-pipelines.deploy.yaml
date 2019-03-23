@@ -22,7 +22,7 @@ jobs:
     workingDirectory: $(system.defaultWorkingDirectory)
     name: generateRandomName
     displayName: Set random namespace as a variable
-  - script: echo $(generateRandomeName.randomNamespace)
+  - script: echo $(generateRandomName.randomNamespace)
     name: echovar
 
 # - job: CreateK8SNamespace
