@@ -101,7 +101,7 @@ jobs:
   - script: |
       docker login --username $(spAppId) --password $(spPassword) $(stagingDockerRegistry)
     displayName: Docker login on staging registry
-    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))  
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))  
 
   - script: |
       version=$(cat .version)
@@ -111,22 +111,22 @@ jobs:
         if [ -d components/$image/dockerenv ]; then
           cp -r components/$image/dockerenv dist/$image/.
         fi
-        docker build --no-cache -t $(stagingDockerRegistry)/citesting/$image:$version -f components/$image/Dockerfile dist/$image
+        docker build --no-cache -t $(stagingDockerRegistry)/nalej/$image:$version -f components/$image/Dockerfile dist/$image
       done
     continueOnError: true
     workingDirectory: '$(modulePath)'
     displayName: Docker build of the images
-    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   - script: |
       version=$(cat .version)
       for image in $(imageList); do
-        docker push $(stagingDockerRegistry)/citesting/$image:$version
+        docker push $(stagingDockerRegistry)/nalej/$image:$version
       done
     continueOnError: true
     workingDirectory: '$(modulePath)'
     displayName: Docker push of the images to the staging registry
-    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   - script: |
       version=$(cat .version)
@@ -139,21 +139,21 @@ jobs:
     continueOnError: true
     workingDirectory: '$(modulePath)'
     displayName: Build macOS & Windows binaries
-    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   - task: PublishPipelineArtifact@0
     inputs:
       artifactName: 'binaries_darwin-amd64'
       targetPath: '$(modulePath)/bin/darwin-amd64'
     displayName: 'Publish macOS amd64 binaries'
-    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   
   - task: PublishPipelineArtifact@0
     inputs:
       artifactName: 'binaries_windows-amd64'
       targetPath: '$(modulePath)/bin/windows-amd64'
     displayName: 'Publish Windows amd64 binaries'
-    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   - script: |
       rm -rf $HOME/.docker/config.json
