@@ -34,7 +34,7 @@ jobs:
   - template: k8s/ns/create.yaml@ci_templates
     parameters:
       kubeconfig: $(kubeconfig)
-      namespace: $(namespace))
+      namespace: $(namespace)
 
   - template: k8s/resources/create.yaml@ci_templates
     parameters:
@@ -51,4 +51,4 @@ jobs:
   - template: k8s/ns/delete.yaml@ci_templates
     parameters:
       kubeconfig: $(kubeconfig)
-      namespace: $(namespace))
+      namespace: $(namespace)
