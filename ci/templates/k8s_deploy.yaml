@@ -4,6 +4,6 @@ parameters:
 
 steps:
   - script: |
-      kubectl --kubeconfig $(kubeconfig) create -f .
-    workingDirectory: dist/yaml/$(platform)
+      kubectl --kubeconfig ${{ parameters.kubeconfig }} create -f .
+    workingDirectory: dist/yaml/${{ parameters.platform }}
     displayName: Create kubernetes resources

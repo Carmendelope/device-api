@@ -9,8 +9,8 @@ steps:
       isOk=1
       for (( i=0; i<36; i++ ))
       do
-        expected=$(kubectl --kubeconfig $(kubeconfig) -n $(namespace) get $(resourceKind) $(resourceName) -o=jsonpath='{.spec.replicas}')
-        ready=$(kubectl --kubeconfig $(kubeconfig) -n $(namespace) get $(resourceKind) $(resourceName) -o=jsonpath='{.status.readyReplicas}')
+        expected=$(kubectl --kubeconfig ${{ parameters.kubeconfig }} -n ${{ parameters.namespace }} get ${{ parameters.resourceKind }} ${{ parameters.resourceName }} -o=jsonpath='{.spec.replicas}')
+        ready=$(kubectl --kubeconfig ${{ parameters.kubeconfig }} -n ${{ parameters.namespace }} get ${{ parameters.resourceKind }} ${{ parameters.resourceName }} -o=jsonpath='{.status.readyReplicas}')
         if [ "$expected" == "$ready" ]; then
           $isOk=0
           break
