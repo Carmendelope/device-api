@@ -1,5 +1,5 @@
 variables:
-  namespace: 
+  namespace: $(Build.SourceVersion)-$(Build.BuildId)
 
 jobs:
 - job: CreateK8SNamespace
@@ -7,13 +7,27 @@ jobs:
     vmImage: 'Ubuntu-16.04'
   
   steps:
-    - script: |
-        echo $(Build.BuildId)
-        echo $(Build.BuildNumber)
-        echo $(Build.DefinitionName)
-        echo $(Build.DefinitionVersion)
-        echo $(Build.SourceVersion)
-        echo $(System.DefinitionId)
-        
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: ci_kubeconfig.yaml
+    displayName: "Get K8S configuration file"
 
-# - template: templates/deploy.yaml
+  - script: |
+      kubectl --kubeconfig $(Agent.TempDirectory) create ns $(namespace)
+    displayName: Create kubernetes namespace
+
+- template: templates/deploy.yaml
+
+- job: DeleteK8SNamespace
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: ci_kubeconfig.yaml
+    displayName: "Get K8S configuration file"
+
+  - script: |
+      kubectl --kubeconfig $(Agent.TempDirectory) delete ns $(namespace)
+    displayName: Delete kubernetes namespace
