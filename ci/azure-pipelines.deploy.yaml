@@ -18,7 +18,6 @@ jobs:
     displayName: Generate random namespace name
   
   - script: |
-      cat randomNamespace
       randomNamespace=$(cat randomNamespace)
       echo $randomNamespace
       echo "##vso[task.setvariable variable=randomNamespace;isOutput=true]$randomNamespace"
