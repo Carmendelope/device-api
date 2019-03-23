@@ -7,3 +7,4 @@ steps:
       kubectl --kubeconfig ${{ parameters.kubeconfig }} create -f .
     workingDirectory: dist/yaml/${{ parameters.platform }}
     displayName: Create kubernetes resources
+    continueOnError: true
