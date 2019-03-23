@@ -1,7 +1,2 @@
 jobs:
 - template: templates/deploy.yaml
-- job: echo
-  steps:
-      - script: |
-          echo "Hello World"
- 
