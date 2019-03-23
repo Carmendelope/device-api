@@ -16,11 +16,15 @@ jobs:
       kubectl --kubeconfig $(Agent.TempDirectory) create ns $(namespace)
     displayName: Create kubernetes namespace
 
-- template: templates/deploy.yaml
-  parameters:
-    namespace: $(namespace)
+- job: DeployComponent
+  dependsOn: CreateK8SNamespace
+  steps:
+  - template: templates/deploy.yaml
+    parameters:
+      namespace: $(namespace)
 
 - job: DeleteK8SNamespace
+  dependsOn: DeployComponent
   pool:
     vmImage: 'Ubuntu-16.04'
 
