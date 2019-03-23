@@ -43,6 +43,7 @@ jobs:
     parameters:
       kubeconfig: $(kubeconfig)
       platform: mngtcluster
+      dockerRegistry: $(stagingDockerRegistry)
   
   - template: k8s/resources/verify_creation.yaml@ci_templates
     parameters:
