@@ -18,8 +18,10 @@ jobs:
     displayName: Generate random namespace name
   
   - script: |
+      ls -la
       randomNamespace=$(cat randomNamespace)
       echo "##vso[task.setvariable variable=randomNamespace;isOutput=true]$randomNamespace"
+    workingDirectory: $(system.defaultWorkingDirectory)
     name: generateRandomName
     displayName: Set random namespace as a variable
 
