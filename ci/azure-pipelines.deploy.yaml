@@ -12,6 +12,7 @@ resources:
     - repository: ci_templates
       type: github
       name: nalej/ci-templates
+      endpoint: nalej
 
 jobs:
 - job: DeployComponent
