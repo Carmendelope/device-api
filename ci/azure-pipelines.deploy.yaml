@@ -12,8 +12,9 @@ jobs:
       script: |
         import random, string
         x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
-        with open("randomNamespace") as rfile:
+        with open("randomNamespace", "w") as rfile:
           rfile.write(x)
+      workingDirectory: $(system.defaultWorkingDirectory)
     displayName: Generate random namespace name
   
   - script: |
