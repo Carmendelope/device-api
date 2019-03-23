@@ -1,38 +1,19 @@
-jobs:
-- job: RandonNamespaceName
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  
-  steps:
-  - checkout: none
-  
-  - task: PythonScript@0
-    inputs:
-      scriptSource: inline
-      script: |
-        import random, string
-        x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
-        with open("randomNamespace", "w") as rfile:
-          rfile.write(x)
-      workingDirectory: $(system.defaultWorkingDirectory)
-    displayName: Generate random namespace name
-  
-  - script: |
-      echo '##vso[task.setvariable variable=namespace;isOutput=true]'$(cat randomNamespace)
-    workingDirectory: $(system.defaultWorkingDirectory)
-    name: getrandom
-    displayName: Set random namespace as a variable
-  - script: echo $(getrandom.namespace)
-    name: echovar
+variables:
+  namespace: 
 
+jobs:
 - job: CreateK8SNamespace
-  dependsOn: RandonNamespaceName
   pool:
     vmImage: 'Ubuntu-16.04'
-  variables:
-    randomNamespace: $[ dependencies.RandomNamespaceName.outputs['getrandom.namespace'] ]
   
   steps:
-    - script: echo $(randomNamespace)
+    - script: |
+        echo $(Build.BuildId)
+        echo $(Build.BuildNumber)
+        echo $(Build.DefinitionName)
+        echo $(Build.DefinitionVersion)
+        echo $(Build.SourceVersion)
+        echo $(System.DefinitionId)
+        
 
 # - template: templates/deploy.yaml
