@@ -1,4 +1,6 @@
-variables:
+variables: 
+  - group: common-vars
+  - group: slack-webhooks
   - group: docker-registries
   - group: ci-service-principal
   - group: ssh-credentials
@@ -14,6 +16,8 @@ variables:
     value: 'device-api'
   - name: imageList
     value: 'device-api'
+  - name: authorName
+    value: ""
 
 resources:
   repositories:
@@ -29,6 +33,17 @@ jobs:
     vmImage: 'Ubuntu-16.04'
   
   steps:
+  - template: misc/variables.yaml@ci_templates
+
+  - template: slack/build/start.yaml@ci_templates
+    parameters:
+      author: $(authorName)
+      repository: $(Build.Repository.Name)
+      branch: $(Build.SourceBranch)
+      commit: $(Build.SourceVersionMessage)
+      buildUrl: $(buildUrl)$(Build.BuildId)
+      slackWebhook: $(slackBuilds)
+
   - script: |
       mkdir -p '$(GOBIN)'
       mkdir -p '$(GOPATH)/pkg'
@@ -76,3 +91,12 @@ jobs:
   - template: docker/logout.yaml@ci_templates
     parameters:
       dockerRegistry: $(stagingDockerRegistry)
+
+  - template: slack/build/finish.yaml@ci_templates
+    parameters:
+      author: $(authorName)
+      repository: $(Build.Repository.Name)
+      branch: $(Build.SourceBranch)
+      commit: $(Build.SourceVersionMessage)
+      buildUrl: $(buildUrl)$(Build.BuildId)
+      slackWebhook: $(slackBuilds)
