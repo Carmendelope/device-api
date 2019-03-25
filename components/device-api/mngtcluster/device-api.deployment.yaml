@@ -23,37 +23,27 @@ spec:
         cluster: management
         component: device-api
     spec:
-      volumes:
-      - name: authx-config
-        configMap:
-          name: device-api-authx-config
       containers:
-      - name: device-api
-        image: __NPH_REGISTRY/__NPH_REGISTRY_NAMESPACE/device-api:__NPH_VERSION
-        volumeMounts:
-        - name: authx-config
-          mountPath: "/nalej/config"
-          readOnly: true
-        imagePullPolicy: Always
-        args:
-        - "run"
-        - "--debug"
-        - "--deviceManagerAddress=device-manager.__NPH_NAMESPACE:6010"
-        - "--authxAddress=authx.__NPH_NAMESPACE:8810"
-        - "--authHeader=authorization"
-        - "--authConfigPath=/nalej/config/authx-config.json"
-        - "--applicationsManagerAddress=application-manager.__NPH_NAMESPACE:8910"
-        securityContext:
-          runAsUser: 2000
-        volumeMounts:
-        - name: config
-          mountPath: /nalej/config/authx-config.json
-          subPath: authx-config.json
-          readOnly: true
+        - name: device-api
+          image: __NPH_REGISTRY/__NPH_REGISTRY_NAMESPACE/device-api:__NPH_VERSION
+          imagePullPolicy: Always
+          args:
+            - "run"
+            - "--debug"
+            - "--deviceManagerAddress=device-manager.__NPH_NAMESPACE:6010"
+            - "--authxAddress=authx.__NPH_NAMESPACE:8810"
+            - "--authHeader=authorization"
+            - "--authConfigPath=/nalej/config/authx-config.json"
+            - "--applicationsManagerAddress=application-manager.__NPH_NAMESPACE:8910"
+          securityContext:
+            runAsUser: 2000
+          volumeMounts:
+            - name: authx-config
+              mountPath: "/nalej/config"
+              readOnly: true
       volumes:
-        - name: config
+        - name: authx-config
           configMap:
-            defaultMode: 0644
             name: device-api-authx-config
       imagePullSecrets:
-      - name: nalej-registry
+        - name: nalej-registry
