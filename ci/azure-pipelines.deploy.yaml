@@ -2,6 +2,8 @@ trigger:
   - master
 
 variables:
+  - group: common-vars
+  - group: slack-webhooks
   - group: docker-registries
   - name: componentList
     value: "device-api"
@@ -9,6 +11,8 @@ variables:
     value: $(Build.SourceVersion)-$(Build.BuildId)
   - name: kubeconfig
     value: $(Agent.TempDirectory)/ci_kubeconfig.yaml
+  - name: authorName
+    value: ""
 
 resources:
   repositories:
@@ -23,6 +27,17 @@ jobs:
     vmImage: 'Ubuntu-16.04'
   
   steps:
+  - template: misc/variables.yaml@ci_templates
+
+  - template: slack/build/start.yaml@ci_templates
+    parameters:
+      author: $(authorName)
+      repository: $(Build.Repository.Name)
+      branch: $(Build.SourceBranch)
+      commit: $(Build.SourceVersionMessage)
+      buildUrl: $(buildUrl)$(Build.BuildId)
+      slackWebhook: $(slackBuilds)
+
   - template: k8s/render_yaml.yaml@ci_templates
     parameters:
       namespace: $(namespace)
@@ -62,3 +77,21 @@ jobs:
       namespace: $(namespace)
       componentList: $(componentList)
       dockerRegistry: $(productionDockerRegistry)
+  
+  - template: slack/build/finish.yaml@ci_templates
+    parameters:
+      author: $(authorName)
+      repository: $(Build.Repository.Name)
+      branch: $(Build.SourceBranch)
+      commit: $(Build.SourceVersionMessage)
+      buildUrl: $(buildUrl)$(Build.BuildId)
+      slackWebhook: $(slackBuilds)
+  
+  - template: slack/build/failed.yaml@ci_templates
+    parameters:
+      author: $(authorName)
+      repository: $(Build.Repository.Name)
+      branch: $(Build.SourceBranch)
+      commit: $(Build.SourceVersionMessage)
+      buildUrl: $(buildUrl)$(Build.BuildId)
+      slackWebhook: $(slackCIFailed)
