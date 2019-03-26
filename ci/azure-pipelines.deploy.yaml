@@ -37,12 +37,22 @@ jobs:
       commit: $(Build.SourceVersionMessage)
       buildUrl: $(buildUrl)$(Build.BuildId)
       slackWebhook: $(slackBuilds)
-
-  - template: k8s/render_yaml.yaml@ci_templates
+  
+  - template: k8s/yaml/render.yaml@ci_templates
     parameters:
-      namespace: $(namespace)
+      namespace: "__NPH_NAMESPACE"
       componentList: $(componentList)
       dockerRegistry: $(stagingDockerRegistry)
+
+  - template: k8s/yaml/publish.yaml@ci_templates
+    parameters:
+      yamlIdentifier: testing
+      yamlPath: dist/yaml/$(stagingDockerRegistry)
+  
+  - template: k8s/yaml/namespace.yaml@ci_templates
+    parameters:
+      namespace: $(namespace)
+      yamlPath: dist/yaml/$(stagingDockerRegistry)
 
   - task: DownloadSecureFile@1
     inputs:
