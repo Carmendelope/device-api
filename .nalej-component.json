@@ -1,7 +1,7 @@
 {
   "language": "golang",
   "application_list": [
-    "app-cluster-api"
+    "device-api"
   ],
   "tools": [
     "azure",
