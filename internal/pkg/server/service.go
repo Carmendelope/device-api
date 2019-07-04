@@ -142,7 +142,7 @@ func (s *Service) LaunchGRPC(authConfig *interceptor.AuthorizationConfig) error 
 	}
 
 	// Create handlers
-	deviceManager := device.NewManager(clients.deviceClient)
+	deviceManager := device.NewManager(s.Configuration.Threshold, clients.deviceClient)
 	deviceHandler := device.NewHandler(deviceManager)
 
 	applicationsManager := applications.NewManager(clients.appClient)

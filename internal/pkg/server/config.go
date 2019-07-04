@@ -26,6 +26,8 @@ type Config struct {
 	AuthConfigPath string
 	// AuthxAddress with the host:port to connect to the Authx manager.
 	AuthxAddress string
+	// Threshold in milliseconds by which it will be considered if a latency is acceptable or not
+	Threshold int
 }
 
 
@@ -55,6 +57,10 @@ func (conf *Config) Validate() derrors.Error {
 		return derrors.NewInvalidArgumentError("authxAddress must be set")
 	}
 
+	if conf.Threshold <= 0 {
+		return derrors.NewInvalidArgumentError("Threshold must be valid")
+	}
+
 	return nil
 }
 
@@ -72,4 +78,6 @@ func (conf *Config) Print() {
 	log.Info().Str("URL", conf.AuthxAddress).Msg("Authx")
 	log.Info().Str("header", conf.AuthHeader).Msg("Authorization")
 	log.Info().Str("path", conf.AuthConfigPath).Msg("Permissions file")
+	log.Info().Int("Threshold", conf.Threshold).Msg("Threshold in milliseconds")
+
 }

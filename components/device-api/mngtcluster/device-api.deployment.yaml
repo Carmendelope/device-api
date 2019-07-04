@@ -35,6 +35,7 @@ spec:
             - "--authHeader=authorization"
             - "--authConfigPath=/nalej/config/authx-config.json"
             - "--applicationsManagerAddress=application-manager.__NPH_NAMESPACE:8910"
+            - "--threshold=100"
           securityContext:
             runAsUser: 2000
           volumeMounts:
