@@ -43,6 +43,7 @@ type Clients struct {
 	deviceClient grpc_device_manager_go.DevicesClient
 	appClient   grpc_application_manager_go.ApplicationManagerClient
 	authxClient grpc_authx_go.AuthxClient
+	latencyClient grpc_device_manager_go.LatencyClient
 }
 
 func (s *Service) GetClients() (*Clients, derrors.Error) {
@@ -51,6 +52,7 @@ func (s *Service) GetClients() (*Clients, derrors.Error) {
 		return nil, derrors.AsError(err, "cannot create connection with the device manager")
 	}
 	deviceClient := grpc_device_manager_go.NewDevicesClient(dmConn)
+	dClient := grpc_device_manager_go.NewLatencyClient(dmConn)
 
 	appConn, err := grpc.Dial(s.Configuration.ApplicationsManagerAddress, grpc.WithInsecure())
 	if err != nil {
@@ -64,7 +66,13 @@ func (s *Service) GetClients() (*Clients, derrors.Error) {
 	}
 	authxClient := grpc_authx_go.NewAuthxClient(authxConn)
 
-	return &Clients{deviceClient, appClient, authxClient}, nil
+
+
+	return &Clients{
+		deviceClient:deviceClient,
+		appClient: appClient,
+		authxClient: authxClient,
+		latencyClient: dClient}, nil
 }
 
 // Run the service, launch the REST service handler.
@@ -142,7 +150,7 @@ func (s *Service) LaunchGRPC(authConfig *interceptor.AuthorizationConfig) error 
 	}
 
 	// Create handlers
-	deviceManager := device.NewManager(s.Configuration.Threshold, clients.deviceClient)
+	deviceManager := device.NewManager(s.Configuration.Threshold, clients.deviceClient, clients.latencyClient)
 	deviceHandler := device.NewHandler(deviceManager)
 
 	applicationsManager := applications.NewManager(clients.appClient)
