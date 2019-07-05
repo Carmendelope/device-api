@@ -8,6 +8,7 @@ import (
 	"github.com/nalej/derrors"
 	"github.com/nalej/grpc-application-manager-go"
 	"github.com/nalej/grpc-device-api-go"
+	"github.com/nalej/grpc-device-controller-go"
 	"github.com/nalej/grpc-device-go"
 )
 
@@ -16,6 +17,8 @@ const emptyDeviceGroupId = "device_group_id cannot be empty"
 const emptyDeviceGroupName = "device_group_name cannot be empty"
 const emptyDeviceId = "device_id cannot be empty"
 const emptyAppInstanceId = "app_instance_id cannot be empty"
+const invalidMeasure = "Measure cannot be zero or less than zero"
+
 
 func ValidDeviceId(deviceId *grpc_device_go.DeviceId) derrors.Error {
 	if deviceId.OrganizationId == "" {
@@ -47,6 +50,22 @@ func ValidRetrieveEndpointsRequest (request *grpc_application_manager_go.Retriev
 	}
 	if request.AppInstanceId == "" {
 		return derrors.NewInvalidArgumentError(emptyAppInstanceId)
+	}
+	return nil
+}
+
+func ValidRegisterLatencyRequest(latency * grpc_device_controller_go.RegisterLatencyRequest) derrors.Error{
+	if latency.OrganizationId == "" {
+		return derrors.NewInvalidArgumentError(emptyOrganizationId)
+	}
+	if latency.DeviceGroupId == "" {
+		return derrors.NewInvalidArgumentError(emptyDeviceGroupId)
+	}
+	if latency.DeviceId == "" {
+		return derrors.NewInvalidArgumentError(emptyDeviceId)
+	}
+	if latency.Latency <= 0 {
+		return derrors.NewInvalidArgumentError(invalidMeasure)
 	}
 	return nil
 }

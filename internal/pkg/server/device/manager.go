@@ -7,6 +7,7 @@ package device
 import (
 	"context"
 	"github.com/nalej/grpc-common-go"
+	"github.com/nalej/grpc-device-controller-go"
 	"github.com/nalej/grpc-device-go"
 	"github.com/nalej/grpc-device-manager-go"
 	"time"
@@ -16,13 +17,17 @@ const DeviceClientTimeout = time.Second * 5
 
 // Manager structure with the required clients for node operations.
 type Manager struct {
+	Threshold int
 	deviceClient grpc_device_manager_go.DevicesClient
+	latencyClient grpc_device_manager_go.LatencyClient
 }
 
 // NewManager creates a Manager using a set of clients.
-func NewManager(deviceClient grpc_device_manager_go.DevicesClient) Manager {
+func NewManager(threshold int, deviceClient grpc_device_manager_go.DevicesClient, latencyClient grpc_device_manager_go.LatencyClient) Manager {
 	return Manager{
+		Threshold:threshold,
 		deviceClient: deviceClient,
+		latencyClient:latencyClient,
 	}
 }
 
@@ -37,4 +42,33 @@ func (m*Manager) RetrieveDeviceLabels(deviceId *grpc_device_go.DeviceId) (*grpc_
 	return &grpc_common_go.Labels{
 		Labels: retrieved.Labels,
 	}, nil
+}
+
+func (m * Manager) Ping () (*grpc_common_go.Success, error) {
+	return &grpc_common_go.Success{}, nil
+}
+
+
+func (m *Manager) RegisterLatency(latency *grpc_device_controller_go.RegisterLatencyRequest) (*grpc_device_controller_go.RegisterLatencyResult, error){
+	result := grpc_device_controller_go.RegisterResult_OK
+	if int(latency.Latency) > m.Threshold {
+		result = grpc_device_controller_go.RegisterResult_LATENCY_CHECK_REQUIRED
+	}
+
+	request :=  &grpc_device_controller_go.RegisterLatencyRequest{
+		OrganizationId: latency.OrganizationId,
+		DeviceGroupId: latency.DeviceGroupId,
+		DeviceId: latency.DeviceId,
+		Latency: latency.Latency,
+	}
+
+	_, err := m.latencyClient.RegisterLatency(context.Background(), request)
+	if err != nil {
+		return nil, err
+	}
+	return &grpc_device_controller_go.RegisterLatencyResult{
+		Result: result,
+	}, nil
+
+
 }
