@@ -237,7 +237,6 @@
   packages = [
     "pkg/conversions",
     "pkg/test",
-    "pkg/tools",
   ]
   pruneopts = ""
   revision = "926e5152669ee71c0e6904055ebe6cfb5492b599"
@@ -485,7 +484,6 @@
     "github.com/nalej/grpc-device-manager-go",
     "github.com/nalej/grpc-utils/pkg/conversions",
     "github.com/nalej/grpc-utils/pkg/test",
-    "github.com/nalej/grpc-utils/pkg/tools",
     "github.com/onsi/ginkgo",
     "github.com/onsi/gomega",
     "github.com/rs/zerolog",
