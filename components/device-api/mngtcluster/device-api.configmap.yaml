@@ -13,6 +13,8 @@ data:
      "permissions": {
        "/device_api.Applications/RetrieveTargetApplications":{"must":["DEVICE"]},
        "/device_api.Applications/RetrieveEndpoints":{"must":["DEVICE"]},
-       "/device_api.Device/RetrieveDeviceLabels":{"must":["DEVICE"]}
+       "/device_api.Device/RetrieveDeviceLabels":{"must":["DEVICE"]},
+       "/device_api.Device/Ping":{"must":["DEVICE"]},
+       "/device_api.Device/RegisterLatency":{"must":["DEVICE"]}
      }
     }
