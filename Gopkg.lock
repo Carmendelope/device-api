@@ -84,8 +84,7 @@
   version = "v1.0"
 
 [[projects]]
-  branch = "master"
-  digest = "1:4224910cb2a54b481b6300e424180686ae424de3d146daf0754c754ab575117b"
+  digest = "1:18ed66bd8d4a26b523e182baa3fa3dfd8a5ad5eb712af4bc3eddb98048979212"
   name = "github.com/nalej/authx"
   packages = [
     "pkg/interceptor",
@@ -93,7 +92,8 @@
     "pkg/token",
   ]
   pruneopts = ""
-  revision = "df4c6edaee854fa71362bd0b12d9e535660ab203"
+  revision = "b148308c906c0425a4604c9cf6bbb84b9a66356e"
+  version = "v0.3.0"
 
 [[projects]]
   digest = "1:0cc441f3dfe124dd74f44dd7e466dfc17cc7edff468094fbc3847a96b5ebf6f7"
