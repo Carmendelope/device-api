@@ -1,11 +1,23 @@
 /*
- * Copyright (C)  2019 Nalej - All Rights Reserved
+ * Copyright 2019 Nalej
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
- /*
+/*
   The test are pending,
   RetrieveTargetApplications and RetrieveEndpoints have been tested in the application manager service
-  */
+*/
 package applications
 
 import (
@@ -24,7 +36,7 @@ import (
 
 var _ = ginkgo.Describe("Device API service", func() {
 
-	if ! utils.RunIntegrationTests() {
+	if !utils.RunIntegrationTests() {
 		log.Warn().Msg("Integration tests are skipped")
 		return
 	}
@@ -71,20 +83,20 @@ var _ = ginkgo.Describe("Device API service", func() {
 		listener.Close()
 	})
 
-	ginkgo.PIt("Should be able to retrieve target applications", func(){
+	ginkgo.PIt("Should be able to retrieve target applications", func() {
 		// TODO: prepare the system and check the results
 		client.RetrieveTargetApplications(context.Background(), nil)
 	})
-	ginkgo.PIt("Should be able to retrieve target applications without labels filering", func(){
+	ginkgo.PIt("Should be able to retrieve target applications without labels filering", func() {
 	})
-	ginkgo.PIt("Should not be able to retrieve target applications of a non existing organization", func(){
+	ginkgo.PIt("Should not be able to retrieve target applications of a non existing organization", func() {
 	})
-	ginkgo.PIt("Should be able to retrieve an empty list (no match deviceGroupId)", func(){
+	ginkgo.PIt("Should be able to retrieve an empty list (no match deviceGroupId)", func() {
 	})
-	ginkgo.PIt("Should be able to retrieve an empty list (no match labels)", func(){
+	ginkgo.PIt("Should be able to retrieve an empty list (no match labels)", func() {
 	})
-	ginkgo.PIt("Should be able to retrieve endpoints", func(){
+	ginkgo.PIt("Should be able to retrieve endpoints", func() {
 	})
-	ginkgo.PIt("Should be able to retrieve an empty endpoints (service is waiting)", func(){
+	ginkgo.PIt("Should be able to retrieve an empty endpoints (service is waiting)", func() {
 	})
 })

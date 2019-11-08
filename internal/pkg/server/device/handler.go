@@ -1,5 +1,17 @@
 /*
- * Copyright (C)  2019 Nalej - All Rights Reserved
+ * Copyright 2019 Nalej
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package device
@@ -26,7 +38,7 @@ func NewHandler(manager Manager) *Handler {
 }
 
 // RetrieveDeviceLabels retrieves the list of labels associated with the current device.
-func (h *Handler) RetrieveDeviceLabels(ctx context.Context, deviceID *grpc_device_go.DeviceId) (*grpc_common_go.Labels, error){
+func (h *Handler) RetrieveDeviceLabels(ctx context.Context, deviceID *grpc_device_go.DeviceId) (*grpc_common_go.Labels, error) {
 	rm, err := interceptor.GetDeviceRequestMetadata(ctx)
 	if err != nil {
 		return nil, conversions.ToGRPCError(err)
@@ -48,11 +60,12 @@ func (h *Handler) RetrieveDeviceLabels(ctx context.Context, deviceID *grpc_devic
 }
 
 // Ping is an operation triggered by the SDK
-func (h *Handler) Ping(ctx context.Context, in *grpc_common_go.Empty) (*grpc_common_go.Success, error){
+func (h *Handler) Ping(ctx context.Context, in *grpc_common_go.Empty) (*grpc_common_go.Success, error) {
 	return h.Manager.Ping()
 }
+
 // RegisterLatency Operation that is called by the SDK to inform the target cluster of the last latency measurement
-func (h *Handler) RegisterLatency(ctx context.Context, latency *grpc_device_controller_go.RegisterLatencyRequest) (*grpc_device_controller_go.RegisterLatencyResult, error){
+func (h *Handler) RegisterLatency(ctx context.Context, latency *grpc_device_controller_go.RegisterLatencyRequest) (*grpc_device_controller_go.RegisterLatencyResult, error) {
 
 	rm, err := interceptor.GetDeviceRequestMetadata(ctx)
 	if err != nil {

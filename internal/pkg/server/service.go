@@ -1,5 +1,17 @@
 /*
- * Copyright (C) 2019 Nalej - All Rights Reserved
+ * Copyright 2019 Nalej
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package server
@@ -15,8 +27,8 @@ import (
 	"github.com/nalej/device-api/internal/pkg/server/device"
 	"github.com/nalej/grpc-application-manager-go"
 	"github.com/nalej/grpc-authx-go"
-	"github.com/nalej/grpc-device-manager-go"
 	"github.com/nalej/grpc-device-api-go"
+	"github.com/nalej/grpc-device-manager-go"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -37,9 +49,9 @@ func NewService(conf Config) *Service {
 }
 
 type Clients struct {
-	deviceClient grpc_device_manager_go.DevicesClient
-	appClient   grpc_application_manager_go.ApplicationManagerClient
-	authxClient grpc_authx_go.AuthxClient
+	deviceClient  grpc_device_manager_go.DevicesClient
+	appClient     grpc_application_manager_go.ApplicationManagerClient
+	authxClient   grpc_authx_go.AuthxClient
 	latencyClient grpc_device_manager_go.LatencyClient
 }
 
@@ -58,17 +70,15 @@ func (s *Service) GetClients() (*Clients, derrors.Error) {
 	appClient := grpc_application_manager_go.NewApplicationManagerClient(appConn)
 
 	authxConn, err := grpc.Dial(s.Configuration.AuthxAddress, grpc.WithInsecure())
-	if err != nil{
+	if err != nil {
 		return nil, derrors.AsError(err, "cannot create connection with the authx component")
 	}
 	authxClient := grpc_authx_go.NewAuthxClient(authxConn)
 
-
-
 	return &Clients{
-		deviceClient:deviceClient,
-		appClient: appClient,
-		authxClient: authxClient,
+		deviceClient:  deviceClient,
+		appClient:     appClient,
+		authxClient:   authxClient,
 		latencyClient: dClient}, nil
 }
 
@@ -154,7 +164,7 @@ func (s *Service) LaunchGRPC(authConfig *interceptor.AuthorizationConfig) error 
 	applicationsHandler := applications.NewHandler(applicationsManager)
 
 	accessManager, aErr := devinterceptor.NewMngtSecretAccessWithClient(clients.authxClient, devinterceptor.DefaultCacheEntries)
-	if err != nil{
+	if err != nil {
 		log.Fatal().Str("trace", aErr.DebugReport()).Msg("cannot create management secret access")
 	}
 

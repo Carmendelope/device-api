@@ -29,7 +29,6 @@ spec:
           imagePullPolicy: Always
           args:
             - "run"
-            - "--debug"
             - "--deviceManagerAddress=device-manager.__NPH_NAMESPACE:6010"
             - "--authxAddress=authx.__NPH_NAMESPACE:8810"
             - "--authHeader=authorization"
