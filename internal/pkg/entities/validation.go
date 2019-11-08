@@ -31,7 +31,6 @@ const emptyDeviceId = "device_id cannot be empty"
 const emptyAppInstanceId = "app_instance_id cannot be empty"
 const invalidMeasure = "Measure cannot be zero or less than zero"
 
-
 func ValidDeviceId(deviceId *grpc_device_go.DeviceId) derrors.Error {
 	if deviceId.OrganizationId == "" {
 		return derrors.NewInvalidArgumentError(emptyOrganizationId)
@@ -56,7 +55,7 @@ func ValidApplicationFilter(filter *grpc_device_api_go.ApplicationFilter) derror
 	return nil
 }
 
-func ValidRetrieveEndpointsRequest (request *grpc_application_manager_go.RetrieveEndpointsRequest) derrors.Error {
+func ValidRetrieveEndpointsRequest(request *grpc_application_manager_go.RetrieveEndpointsRequest) derrors.Error {
 	if request.OrganizationId == "" {
 		return derrors.NewInvalidArgumentError(emptyOrganizationId)
 	}
@@ -66,7 +65,7 @@ func ValidRetrieveEndpointsRequest (request *grpc_application_manager_go.Retriev
 	return nil
 }
 
-func ValidRegisterLatencyRequest(latency * grpc_device_controller_go.RegisterLatencyRequest) derrors.Error{
+func ValidRegisterLatencyRequest(latency *grpc_device_controller_go.RegisterLatencyRequest) derrors.Error {
 	if latency.OrganizationId == "" {
 		return derrors.NewInvalidArgumentError(emptyOrganizationId)
 	}

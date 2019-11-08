@@ -29,26 +29,26 @@ const DeviceClientTimeout = time.Second * 5
 
 // Manager structure with the required clients for node operations.
 type Manager struct {
-	Threshold int
-	deviceClient grpc_device_manager_go.DevicesClient
+	Threshold     int
+	deviceClient  grpc_device_manager_go.DevicesClient
 	latencyClient grpc_device_manager_go.LatencyClient
 }
 
 // NewManager creates a Manager using a set of clients.
 func NewManager(threshold int, deviceClient grpc_device_manager_go.DevicesClient, latencyClient grpc_device_manager_go.LatencyClient) Manager {
 	return Manager{
-		Threshold:threshold,
-		deviceClient: deviceClient,
-		latencyClient:latencyClient,
+		Threshold:     threshold,
+		deviceClient:  deviceClient,
+		latencyClient: latencyClient,
 	}
 }
 
 // RetrieveDeviceLabels retrieves the list of labels associated with the current device.
-func (m*Manager) RetrieveDeviceLabels(deviceId *grpc_device_go.DeviceId) (*grpc_common_go.Labels, error){
+func (m *Manager) RetrieveDeviceLabels(deviceId *grpc_device_go.DeviceId) (*grpc_common_go.Labels, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), DeviceClientTimeout)
 	defer cancel()
 	retrieved, err := m.deviceClient.GetDevice(ctx, deviceId)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	return &grpc_common_go.Labels{
@@ -56,22 +56,21 @@ func (m*Manager) RetrieveDeviceLabels(deviceId *grpc_device_go.DeviceId) (*grpc_
 	}, nil
 }
 
-func (m * Manager) Ping () (*grpc_common_go.Success, error) {
+func (m *Manager) Ping() (*grpc_common_go.Success, error) {
 	return &grpc_common_go.Success{}, nil
 }
 
-
-func (m *Manager) RegisterLatency(latency *grpc_device_controller_go.RegisterLatencyRequest) (*grpc_device_controller_go.RegisterLatencyResult, error){
+func (m *Manager) RegisterLatency(latency *grpc_device_controller_go.RegisterLatencyRequest) (*grpc_device_controller_go.RegisterLatencyResult, error) {
 	result := grpc_device_controller_go.RegisterResult_OK
 	if int(latency.Latency) > m.Threshold {
 		result = grpc_device_controller_go.RegisterResult_LATENCY_CHECK_REQUIRED
 	}
 
-	request :=  &grpc_device_controller_go.RegisterLatencyRequest{
+	request := &grpc_device_controller_go.RegisterLatencyRequest{
 		OrganizationId: latency.OrganizationId,
-		DeviceGroupId: latency.DeviceGroupId,
-		DeviceId: latency.DeviceId,
-		Latency: latency.Latency,
+		DeviceGroupId:  latency.DeviceGroupId,
+		DeviceId:       latency.DeviceId,
+		Latency:        latency.Latency,
 	}
 
 	_, err := m.latencyClient.RegisterLatency(context.Background(), request)
@@ -81,6 +80,5 @@ func (m *Manager) RegisterLatency(latency *grpc_device_controller_go.RegisterLat
 	return &grpc_device_controller_go.RegisterLatencyResult{
 		Result: result,
 	}, nil
-
 
 }

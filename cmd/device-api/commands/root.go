@@ -30,9 +30,9 @@ var debugLevel bool
 var consoleLogging bool
 
 var rootCmd = &cobra.Command{
-	Use:   "device-api",
-	Short: "Device API component",
-	Long:  `The device API provides a public API dedicated to external devices.`,
+	Use:     "device-api",
+	Short:   "Device API component",
+	Long:    `The device API provides a public API dedicated to external devices.`,
 	Version: "unknown-version",
 
 	Run: func(cmd *cobra.Command, args []string) {

@@ -26,4 +26,3 @@ func TestApplicationPackage(t *testing.T) {
 	gomega.RegisterFailHandler(ginkgo.Fail)
 	ginkgo.RunSpecs(t, "Application package suite")
 }
-

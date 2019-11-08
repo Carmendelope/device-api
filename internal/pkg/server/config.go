@@ -42,7 +42,6 @@ type Config struct {
 	Threshold int
 }
 
-
 func (conf *Config) Validate() derrors.Error {
 
 	if conf.Port <= 0 || conf.HTTPPort <= 0 {

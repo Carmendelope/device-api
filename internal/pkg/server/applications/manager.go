@@ -33,10 +33,10 @@ func NewManager(appsClient grpc_application_manager_go.ApplicationManagerClient)
 	}
 }
 
-func (m * Manager) RetrieveTargetApplications(filter *grpc_application_manager_go.ApplicationFilter) (*grpc_application_manager_go.TargetApplicationList, error) {
+func (m *Manager) RetrieveTargetApplications(filter *grpc_application_manager_go.ApplicationFilter) (*grpc_application_manager_go.TargetApplicationList, error) {
 	return m.appsClient.RetrieveTargetApplications(context.Background(), filter)
 }
 
-func ( m * Manager) RetrieveEndpoints(request *grpc_application_manager_go.RetrieveEndpointsRequest) (*grpc_application_manager_go.ApplicationEndpoints, error){
+func (m *Manager) RetrieveEndpoints(request *grpc_application_manager_go.RetrieveEndpointsRequest) (*grpc_application_manager_go.ApplicationEndpoints, error) {
 	return m.appsClient.RetrieveEndpoints(context.Background(), request)
 }
