@@ -8,6 +8,9 @@
   "image_list": [
     "device-api"
   ],
+  "component_list": [
+    "device-api"
+  ],
   "tools": [
     "k8s",
     "docker"
