@@ -2,15 +2,15 @@
 
 This component is in charge of receiving and processing device requests such as registration, login, etc.
 
-Notice that the device API supports REST and gRPC request by means of the [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) that is launched when the server starts.
+Notice that the device API supports REST and gRPC requests through the [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) that is launched when the server starts.
 
 ## Getting Started
 
 ### Prerequisites
 
-* [device-manager](https://github.com/nalej/device-manager)
-* [authx](https://github.com/nalej/authx)
-* [application-manager](https://github.com/nalej/application-manager)
+* [`device-manager`](https://github.com/nalej/device-manager)
+* [`authx`](https://github.com/nalej/authx)
+* [`application-manager`](https://github.com/nalej/application-manager)
 
 ### Build and compile
 
@@ -20,8 +20,7 @@ In order to build and compile this repository use the provided Makefile:
 make all
 ```
 
-This operation generates the binaries for this repo, download dependencies,
-run existing tests and generate ready-to-deploy Kubernetes files.
+This operation generates the binaries for this repo, downloads the required dependencies, runs existing tests and generates ready-to-deploy Kubernetes files.
 
 ### Run tests
 
@@ -53,7 +52,7 @@ Please read [contributing.md](contributing.md) for details on our code of conduc
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/nalej/device-api/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the available versions, see the [tags on this repository](https://github.com/nalej/device-api/tags). 
 
 ## Authors
 
